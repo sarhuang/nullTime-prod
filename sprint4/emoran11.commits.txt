@@ -1,0 +1,93 @@
+209d3a8f (emoran11         2022-11-29 08:08:37 -0500 13)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 14)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 15) <!--buttons for showing the game changing the teams-->
+da5bd61d (emoran11         2022-11-29 10:37:24 -0500 16) <div *ngIf="isModerating">
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 17)     <button mat-raised-button id="giveTeamButton" style="background-color: #0da987"
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 18)     (click)="getService().setTeamCallback(1, getCard())">Team 1</button>
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 19)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 20)     <button mat-raised-button id="giveTeamButton" style=background-color:#3498DB
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 21)     (click)="getService().setTeamCallback(2, getCard())">Team 2</button>
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 22)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 23)     <button mat-raised-button id="giveTeamButton" style=background-color:#ff0000
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 24)     (click)="getService().setTeamCallback(0, getCard())">None</button>
+da5bd61d (emoran11         2022-11-29 10:37:24 -0500 25) </div>
+209d3a8f (emoran11         2022-11-29 08:08:37 -0500 28) 	getCard() {
+209d3a8f (emoran11         2022-11-29 08:08:37 -0500 29) 			return this.card;
+209d3a8f (emoran11         2022-11-29 08:08:37 -0500 30) 	}
+209d3a8f (emoran11         2022-11-29 08:08:37 -0500 31)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500  4)     margin: 20px auto;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500  5)     margin-bottom: 0;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 15) }
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 16)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 17) #giveTeamButton{
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 18)   width: 90px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 19)   height: 30px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 20)   border: 5px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 21)   text-align: center;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 22)   font-size: 20px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 23)   cursor: pointer;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 24)   margin: 10px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 25) //margin-top: 10px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 26) //margin-bottom: 10px;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 27)   display: inline-block;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 28) //float:center;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 29)   font-family: 'Raleway', sans-serif;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 30) }
+fd08165a (emoran11         2022-11-30 23:18:27 -0500  3)         <div id=body *ngIf="showAsList" style="max-width: 500px; margin: auto; text-align: center;">
+0dba14c1 (emoran11         2022-11-29 08:34:48 -0500 14)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 15)         <!--table mode currently not implemented-->
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 16)         <div *ngIf="showAsTable" style="max-width: 500px; margin: auto; text-align: center;">
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 17)             <div *ngFor="let card of allCards">
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 18)                 <!-- [card] is us binding the given card to the given component -->
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 19)                 <app-game-card [card]="card" [canEdit]="canEditCards" [isModerating]="isModerating"></app-game-card>
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 20)             </div>
+0dba14c1 (emoran11         2022-11-29 08:34:48 -0500 21)         </div>
+0dba14c1 (emoran11         2022-11-29 08:34:48 -0500 22)
+da5bd61d (emoran11         2022-11-29 10:37:24 -0500 23)
+0dba14c1 (emoran11         2022-11-29 08:34:48 -0500 24)         <div *ngIf="!showAsList && !showAsTable">
+fd08165a (emoran11         2022-11-30 23:18:27 -0500  21) 	@Input() showAsTable: boolean = false; //alternative view for moderation page
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 18)
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 19) #bigButton:disabled{
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 20)     color: rgba(255, 255, 255, 0.5);
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 21)     cursor: not-allowed;
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 22) }
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 20) <div *ngIf="currentRoundPhase == 2" id="box">
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 22)   <p>Score a card incorrectly? You can fix it here!</p>
+fd08165a (emoran11         2022-11-30 23:18:27 -0500 26)     <button id = "bigButton" style="margin-top: 20px" (click)="startNextRound()">Start Next Round</button>
+fd08165a (emoran11         2022-11-30 23:18:27 -0500  3)         <div id=body *ngIf="showAsList" style="max-width: 500px; margin: auto; text-align: center;">
+0dba14c1 (emoran11         2022-11-29 08:34:48 -0500 14)
+da5bd61d (emoran11 2022-11-29 10:37:24 -0500 1) <app-game-card-list [isModerating] = "true" [showAsTable] = true [showAsList]=false [allCards] = "getCardList()"></app-game-card-list>
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  17)     display: block;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  33)     display: block;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  34)     margin-left: auto;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  35)     margin-right: auto;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  36)     font-size: 25px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  37)     font-family: 'Raleway', sans-serif;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  38) }
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  39)
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  40) #moderateGame{
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  41)     background-color: #ff9427;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  42)     border: none;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  43)     color: rgb(255, 255, 255);
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  44)     padding: 15px 100px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  45)     text-align: center;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  46)     font-size: 16px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  47)     margin: 4px 2px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  48)     cursor: pointer;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  49)     display: block;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  50)     margin-left: auto;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  51)     margin-right: auto;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  52)     font-size: 25px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  53)     font-family: 'Raleway', sans-serif;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  54) }
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  55)
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  56) #pauseGame{
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  57)     background-color: #45f320;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  58)     border: none;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  59)     color: rgb(255, 255, 255);
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  60)     padding: 15px 100px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  61)     text-align: center;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  62)     font-size: 16px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  63)     margin: 4px 2px;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  64)     cursor: pointer;
+a74abf92 (emoran11         2022-11-30 23:39:21 -0500  65)     display: block;

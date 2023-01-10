@@ -1,0 +1,211 @@
+game-card-list.component.html
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  6)             <button *ngIf="canAddCards" (click)="addCard()" mat-raised-button>Add Card</button>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  7)             <button *ngIf="canAddCards" (click)="clearCardList()" mat-raised-button style="margin-left: 5px;">Clear List</button>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 30)             <button class="skip-button" style="margin-top: 20px; width: 200px;" color="warn" (click)="incrementCardIndex()" mat-raised-button>Skip</button>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 33)     <div *ngIf="getTotalCards() === 0" style="max-width: 500px; margin: auto; text-align: center; color: white;">
+
+game-card-list.component.ts
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500   8) import { DialogService } from '../services/dialog.service';
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  29) 	confirm: boolean = false;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  35) 	constructor(private router: Router, private service: GameplayService, private dialogService: DialogService) {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  55) 	clearCardList(): void {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  56) 		this.dialogService.confirmDialog({
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  57) 			title: 'Are you sure you want to clear all your cards?',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  58) 			message: 'All words will be erased and you will have an empty deck.',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  59) 			confirmText: 'Confirm',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  60) 			cancelText: 'Cancel',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  61) 			answer: this.confirm}).subscribe(result => {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  62) 			  this.confirm = result;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  63) 			  if(this.confirm){
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  64) 				this.service.clearCardList();
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  65) 				this.confirm = false;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  67) 			  }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  68) 			});
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  69) 	}
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  70) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  27) 	@Output() clearCardsCallback = new EventEmitter();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  66) 				if (this.clearCardsCallback !== undefined) this.clearCardsCallback.emit();
+
+game-card.component.scss
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  4)     margin: 10px auto;
+
+game-lobby.component.html
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 50)   class="start-button" [disabled]="getCardList().length < 1">Start Game</button>
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 26)     <button class="start-button" id = "bigButton" (click) = "startGame()" 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 27)     [disabled]="getCardList().length < 1">Start Game</button>
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 52)   <app-game-card-list [canAddCards]="true" [allCards]="getCardList()" [canEditCards]="true" [showAsList]="true" (clearCardsCallback)="clearCards()"></app-game-card-list>
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 53)   <!-- <button (click) = devBack()>dev back button</button> -->
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 59)   <!-- <button (click) = devBack()>dev back button</button> -->
+
+game-lobby.component.scss
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 76) .start-button {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 77)     background-color: rgb(57, 173, 57) !important;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 78) }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 79) 
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 80) .start-button:disabled {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 81)     background-color: rgba(57, 173, 57, 0.5) !important;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 83)     cursor: not-allowed !important;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 31)     max-width: 450px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 82)     color: rgba(255, 255, 255, 0.5) !important;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 87)     max-width: 400px;
+
+game-lobby.component.ts
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  39)   clearCards = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  40)     GameLobbyComponent.gameCardList = [];
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  41)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  42) 
+
+round-page.html
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  6)   <p style="margin: 10px">{{getService().getRoundInstructions()}}</p>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 36)   <h3>Team 1 Score: <b>{{getService().team1Score}}</b></h3>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 37)   <h3>Team 2 Score: <b>{{getService().team2Score}}</b></h3>
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 39)   <button id = "bigButton" (click)="backToMainMenu()">Back to Main Menu</button>
+
+round-page.scss
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  1) .game-over-panel {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  2)     text-align: center;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  3)     color: white;
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 28) }
+
+round-page.ts
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  2) import { Router } from '@angular/router';
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 16)   constructor(private service: GameplayService, private router: Router) { }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 36) 
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 37)   backToMainMenu = () => {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 38)     this.router.navigateByUrl('/');
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 39)   }
+
+turn-start-page.html
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  2) <div *ngIf="!isPlayingTurn" style="color: white;">
+
+gameplay-service.ts
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500   4) import { RandomizeArray, ScoreTeam, StartTimer, GetRoundInstructions } from "src/gameHelper/utils";
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  49)     getRoundInstructions() {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  50)         return GetRoundInstructions(this.currentRound);
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  51)     }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500  52) 
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 128)     clearCardList() {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 129)         this.allCardsRef = [];
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 130)         this.cardsAtPlay = [];
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 131)     }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 132) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 164)                 service.playEndBuzzer();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 170)     playEndBuzzer() {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 171)         const audio = new Audio();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 172)         audio.src = "../assets/music/TimeUpBuzzer.mp3";
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 173)         audio.load();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 174)         audio.play();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 175)     }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 176) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 225)     getTeam1Score = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 226)         return ScoreTeam(this.roundHistory, 1);
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 227)     }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 228) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 229)     getTeam2Score = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 230)         return ScoreTeam(this.roundHistory, 2);
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 231)     }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 232) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 234)         this.team1Score = this.getTeam1Score();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 235)         this.team2Score = this.getTeam2Score();
+
+utils.ts
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 21) const instructions = [
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 22)     'During this round, the player with the card deck can use as many words as they want to describe the word on the card.',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 23)     'During this round, the player with the card deck can only use one word to describe the word on the card.',
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 24)     'During this round, the player with the card deck can only use hand motions and acting to describe the word on the card.'
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 25) ]
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 26) 
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 27) export const GetRoundInstructions = (roundIndex: number): string => {
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 28)     if (roundIndex > 2) return '';
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 29)     return instructions[roundIndex];
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 30) }
+5cab0750 (Harrison Hoytt 2022-11-29 08:53:33 -0500 31) 
+
+app.module.ts
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 24) import { GameScoreDisplayComponent } from './game-score-display/game-score-display.component';
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 41)   MessageComponent,
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 42)   GameScoreDisplayComponent
+
+game-card-list.component.scss
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 62)     max-width: 450px;
+
+game-join.component.html
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 23)     <button id = "joinGame" (click) = "joinGame()" [disabled]="disableJoinGame()">Join Game</button>
+
+game-join.component.scss
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  39)     max-width: 450px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  92) #joinGame:disabled{
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  93)     background-color: rgba(13, 169, 135, 0.5);
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  94)     color: rgba(255, 255, 255, 0.5);
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  95)     cursor: not-allowed;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  96) }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  97) 
+
+game-join.component.ts
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  16)   code = "";
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  31)   disableJoinGame() {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  32)     return this.code.trim().length < 1;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  33)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  34) 
+
+game-score-display.component.html
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 1) <div class="score-parent">
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 2)     <p class="team-1-score" [ngClass]="{'bold-score': getCurrentTeam() === 1}">{{getTeam1Score()}}</p>
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 3)     <p class="team-2-score" [ngClass]="{'bold-score': getCurrentTeam() === 2}">{{getTeam2Score()}}</p>
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 4) </div>
+
+game-score-display.component.scss
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  1) .score-parent {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  2)     position: relative;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  3)     max-width: 450px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  4)     margin: 10px auto;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  5) }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  6) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  7) .team-1-score {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  8)     color: white;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  9)     font-size: 20px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 10)     position: absolute;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 11)     left: 20px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 12) }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 13) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 14) .team-2-score {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 15)     color: white;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 16)     font-size: 20px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 17)     position: absolute;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 18)     right: 20px;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 19)     text-align: right;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 20) }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 21) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 22) .bold-score {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 23)     font-weight: bolder;
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 24) }
+
+game-score-display.component.ts
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  1) import { Component, OnInit } from '@angular/core';
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  2) import { GameplayService } from '../services/gameplay-service';
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  3) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  4) @Component({
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  5)   selector: 'app-game-score-display',
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  6)   templateUrl: './game-score-display.component.html',
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  7)   styleUrls: ['./game-score-display.component.scss']
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  8) })
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500  9) export class GameScoreDisplayComponent implements OnInit {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 10) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 11)   constructor(private service: GameplayService) { }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 12) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 13)   ngOnInit(): void {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 14)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 15) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 16)   getTeam1Score = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 17)     return this.service.getTeam1Score().toString();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 18)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 19) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 20)   getTeam2Score = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 21)     return this.service.getTeam2Score().toString();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 22)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 23) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 24)   getCurrentTeam = () => {
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 25)     return this.service.getCurrentTeam();
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 26)   }
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 27) 
+9a53c469 (Harrison Hoytt 2022-11-30 14:09:55 -0500 28) }

@@ -1,0 +1,49 @@
+# Product Requirements Document
+Name: Sarah Huang
+
+Product Name: Null Time
+
+## Background
+The game is a lot of fun, but it is a pain to setup. Not always do you have enough paper and pencils on the spot.
+The game would allow to play the game without paper. The application is great for young people that know the game 
+but don't have time to set it up or lack the resources.
+
+## Project Overview
+Null Time is a digital version of Time's Up that helps eliminate all the setup usually required to play Time's Up. 
+It will handle the card creation, game phases and rounds, and match scoring.
+
+## Features
+
+1. Join Game via Game Pin (Issue #3)
+As a user, I want to be able to enter a game pin and be able to add words to our game so multiple people can add many cards to the game.
+
+2. Digital Game Card (Issue #10, #15)
+As a user, I want to be able to add and edit a card with words I want to add to the game so we can play without paper and pencil.
+
+3. Pop ups (#33)
+As a user, I want to be warned when I am doing an action that could erase our cards or doing a wrong action.
+
+4. Instructions at Every Round (#78)
+As a user, I want to be told what the instructions are for each round as they change every round.
+
+5. Game Moderator (Issue #11)
+As a user, I want to be able to click a card and change the team it is assigned to in case scoring mishaps occur.
+
+6. Local Lobby (Issue #14)
+As a user, I want to be able to play a local game that doesn't require my friends to have phones to play.
+
+7. Team Scores on Gameplay Page (Issue #76)
+As a user, I want to know the scores of both teams throughout all the rounds rather the end so I know how hard to play.
+
+8. Game Sound Effects and Music (Issue #79, #80)
+As a user, I want the game to have music and sound effects so the game is more engaging and gives back audio feedback for options I've clicked.
+
+## Technologies to be used
+Front End:
+- Angular
+- Typescript
+- SASS
+- Node
+
+Back End:
+- Kotlin

@@ -1,0 +1,39 @@
+Background:
+Time's Up a fun party game. The game requires brainstorming cards, writing them down, and cutting them up. This can be restrictive to actually playing the game.
+
+Product Overview:
+nullTime is a web app of Time's Up. Players can play at their leisure without needing to come up with new cards, card cutouts, and a timer each game.
+nullTime will handle all the normal set up allowing players to just relax and have fun.
+
+User Stories/Features:
+Current Score
+As a user, I want to be able to keep track of the game scores.
+
+Moderator
+As a user, I want to be able to assign points to teams that may have been mis-scored that round.
+
+Moderator No team
+As a user, I want to be able to score the card to nobody.
+
+Instructions
+As a user, I want the instructions to be listed for my convenience and for new players.
+
+Game Audio
+As a user, I want to have engaging audio to enhance my playing experience.
+
+Lobby
+As a user, I want to be able to create lobbies to join and to generate all my cards before a game begins.
+
+Timer
+As a user, I want a built in timer to keep the game moving.
+
+
+Features:
+Technologies:
+Front End:
+- Angular
+- Typescript
+- SASS
+- Node
+Back End:
+- Kotlin

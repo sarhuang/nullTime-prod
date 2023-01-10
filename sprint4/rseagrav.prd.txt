@@ -1,0 +1,41 @@
+Background:
+The party game "Time's Up" or "Fishbowl" is exceptionally tedious to set up. So nullTime seeks to remedy this.
+
+Product Overview:
+nullTime is is the digital form of the party game "Fishbowl" or "Time's Up". It keeps track of all the cards in play
+and the use of a phone is exceptionally more simple and less tedious than working out getting paper, writing utensils,
+and bowls for a 20 minute game.
+
+Features:
+Game Card Component:
+As a user, I want to be able to have a flash card that displays an entry submitted by a player
+
+Game Moderator Component:
+As a user, I want to be able change outcomes of a specific round of the game to fix or better keep track of scoring "mishaps" that may happen during playing
+
+Game Lobby Component:
+As a user, I want to have a screen before the game starts where I can submit cards and wait on my fellow players
+
+Mid-game instructions:
+As a user, I want to be able to see instructions for how to play the game before each round, to help those playing along with me who may be unfamiliar with the game
+
+Generate Game Code:
+As a user, I want a way to be able to play with my friends by entering a game code to submit cards to their lobby
+
+Local Game Lobby:
+As a user, I want a way to play the game completely on my browser, so that I do not need each other play to have a phone to play the game
+
+Hidden Player Cards:
+As a user, I want my cards to be hidden, so that other players cannot cheat and gain an unfair advantage
+
+Gameplay Soundeffects:
+As a user, I want to audio to play back for me when I perform actions so I am notified of what I am doing audibly
+
+Technologies:
+Front End:
+- Angular
+- Typescript
+- SASS
+- Node
+Back End:
+- Kotlin

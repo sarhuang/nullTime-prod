@@ -1,0 +1,40 @@
+Background:
+The hit social party game Time's Up is quite fun to play, but playing it comes with the unfortunate downside of a lot of setup.
+
+Product Overview:
+NullTime is a digital version of Time's Up that helps eliminate all the setup usually required to play Time's Up. 
+It will handle the card creation, game phases and rounds, and match scoring.
+
+Features:
+Game Card Component (Issue #10):
+As a user, I want to be able to have a digital representation of a game card, so that I can use it to play the game.
+
+Game Moderator Component (Issue #11):
+As a user, I want to be able to modify the current state of the game in the middle of the game, so that it's easier to correct mistakes in scoring in the middle of the game
+
+Game Lobby Component (Issue #7):
+As a user, I want a pre game lobby, so that I have a place to enter game cards to use in the game
+
+Mid-game instructions (Issue #78):
+As a user, I want to be able to see instructions for the current round, so that I can learn the game easier if I'm playing it for the first time
+
+Generate Game Code (Issue #19):
+As a user, I want a way to get a game code that corrisponds to my game, so that I other users can send me words to use in my game
+
+Local Game Lobby (Issue #14):
+As a user, I want a way to host a local lobby that runs the game entirely in my browser, so that the game can run without requiring other players to also have phones
+
+Hidden Player Cards (Issue #51):
+As a user, I want to be able to hide the cards entered into the game card list, so that during local games the other players cannot cheat
+
+Gameplay Soundeffects (Issue #80):
+As a user, I want to be able to have audio play for different stages in the game, so that the game is more engaging and can provide audio feedback
+
+Technologies:
+Front End:
+- Angular
+- Typescript
+- SASS
+- Node
+Back End:
+- Kotlin

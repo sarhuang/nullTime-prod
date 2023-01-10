@@ -1,0 +1,62 @@
+Background:
+A great party game called "Fishbowl" is great at unity people together.
+However, it requires dozens of minutes to properly setup. The nullTime
+aims to solve this issue.
+
+
+
+Overview:
+NullTime allows one person to set up a game on their mobile device.
+After creating a lobby, every person is able to add their own cards to
+that lobby from their own device using a lobby-key given after lobby
+creation. Then, the owner can start the game, creating a deck of cards
+from the ones submitted by other players, and goes to the game part.
+Here the game can be completely played on one divice, where all the
+cards are managed automatically, allowing for management in between
+the different stages of the game.
+
+
+
+Features:
+
+Host a game:
+As a party leader, I want to be able to create a game with an easily
+sharable code, to allow ease of access to other players.
+
+Contribute Cards:
+As a player, I want to be able to submit my cards simultaniously with
+other players, to expand the game and save time.
+
+Delete Cards:
+As a player, I want to be able to revoke my submission, in case I
+have contributed wrong cards.
+
+Start a game:
+As a party leader, I want to be able to start the game with all the
+words, to proceed to the start of the first round.
+
+Play rounds:
+As a player, I want to be able to go through different rounds of the
+game on the leading device, to allow for fluent gameplay
+
+Moderate:
+As a party leader, I want to be able to revise the round state, to
+make sure any mistakes have been fixed
+
+
+
+Technologies:
+
+Frontend:
+* SvelteKit
+* Vite
+* HTML
+* CSS
+* TypeScript
+Backend:
+* AWS Lambda
+* AWS DynamoDB
+* AWS ApiGateway
+* AWS CloudFormation
+* Kotlin
+* Gradle

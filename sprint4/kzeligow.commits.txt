@@ -1,0 +1,431 @@
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) #!/usr/bin/env node
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) import 'source-map-support/register';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import * as cdk from 'aws-cdk-lib';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import { CdkStack } from '../lib/cdk-stack';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import * as dotenv from 'dotenv'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) dotenv.config()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) const stackEnvProd = { account: process.env.AWS_ACCOUNT, region: process.env.AWS_PROD_REGION }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) const app = new cdk.App();
+57326934 (huncfut 2022-12-01 13:02:14 -0500 12) new CdkStack(app, 'NullTime-CDKStack', { env: stackEnvProd });
+5a3c8f7c aws/cdk/config/.env (huncfut 2022-11-10 08:26:46 -0500 1) AWS_ACCOUNT="970207114415"
+5a3c8f7c aws/cdk/config/.env (huncfut 2022-11-10 08:26:46 -0500 2) AWS_PROD_REGION="us-east-1"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) import * as cdk from 'aws-cdk-lib';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) import { Construct } from 'constructs';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import { HttpApi, HttpMethod, PayloadFormatVersion} from '@aws-cdk/aws-apigatewayv2-alpha'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import * as lambda from 'aws-cdk-lib/aws-lambda'
+57326934 (huncfut 2022-12-01 13:02:14 -0500  6) import * as dynamo from 'aws-cdk-lib/aws-dynamodb'
+57326934 (huncfut 2022-12-01 13:02:14 -0500  7) import { Duration } from 'aws-cdk-lib';
+57326934 (huncfut 2022-12-01 13:02:14 -0500  8) import { Policy, PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) // import * as sqs from 'aws-cdk-lib/aws-sqs';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) export class CdkStack extends cdk.Stack {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12)   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13)     super(scope, id, props);
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 14) 
+57326934 (huncfut 2022-12-01 13:02:14 -0500 15)     // Database
+57326934 (huncfut 2022-12-01 13:02:14 -0500 16)     const lobbyDBCards = new dynamo.Table(this, "lobbyDB-card-entries", {
+57326934 (huncfut 2022-12-01 13:02:14 -0500 17)       tableName: "card-entries",
+57326934 (huncfut 2022-12-01 13:02:14 -0500 18)       partitionKey: { name: 'id', type: dynamo.AttributeType.STRING },
+57326934 (huncfut 2022-12-01 13:02:14 -0500 19)       billingMode: dynamo.BillingMode.PAY_PER_REQUEST
+57326934 (huncfut 2022-12-01 13:02:14 -0500 20)     })
+57326934 (huncfut 2022-12-01 13:02:14 -0500 21)     const lobbyDBLobbies = new dynamo.Table(this, "lobbyDB-lobbies", {
+57326934 (huncfut 2022-12-01 13:02:14 -0500 22)       tableName: "lobbies",
+57326934 (huncfut 2022-12-01 13:02:14 -0500 23)       partitionKey: { name: 'key', type: dynamo.AttributeType.STRING },
+57326934 (huncfut 2022-12-01 13:02:14 -0500 24)       billingMode: dynamo.BillingMode.PAY_PER_REQUEST
+57326934 (huncfut 2022-12-01 13:02:14 -0500 25)     })
+57326934 (huncfut 2022-12-01 13:02:14 -0500 26) 
+57326934 (huncfut 2022-12-01 13:02:14 -0500 27)     // Lambda
+57326934 (huncfut 2022-12-01 13:02:14 -0500 28)     const lobbyHandler = new lambda.Function(this, "lobby-lambda", {
+57326934 (huncfut 2022-12-01 13:02:14 -0500 29)       functionName: "lobby-lambda",
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 30)       runtime: lambda.Runtime.JAVA_11,
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 31)       code: lambda.Code.fromAsset("../api/lobby/build/libs/lobby-1.0-SNAPSHOT-all.jar"),
+57326934 (huncfut 2022-12-01 13:02:14 -0500 32)       handler: "app.nulltime.api.lobby.Server::handleRequest",
+57326934 (huncfut 2022-12-01 13:02:14 -0500 33)       timeout: Duration.seconds(10),
+d40e2137 (huncfut 2022-12-03 00:36:39 -0500 34)       memorySize: 1024
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 35)     })
+57326934 (huncfut 2022-12-01 13:02:14 -0500 36)     lobbyDBCards.grantReadWriteData(lobbyHandler)
+57326934 (huncfut 2022-12-01 13:02:14 -0500 37)     lobbyDBLobbies.grantReadWriteData(lobbyHandler)
+57326934 (huncfut 2022-12-01 13:02:14 -0500 38) 
+57326934 (huncfut 2022-12-01 13:02:14 -0500 39)     // API
+57326934 (huncfut 2022-12-01 13:02:14 -0500 40)     const lobbyIntegration = new HttpLambdaIntegration("lobby-lambdaIntegration", lobbyHandler, {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 41)       payloadFormatVersion: PayloadFormatVersion.VERSION_1_0
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 42)     })
+57326934 (huncfut 2022-12-01 13:02:14 -0500 43)     const api = new HttpApi(this, "NullTime-API")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 44)     api.addRoutes({
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 45)       path: "/lobby/{proxy+}",
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 46)       methods: [ HttpMethod.ANY ],
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 47)       integration: lobbyIntegration
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 48)     })
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 49)   }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 50) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) package app.nulltime.api.lobby
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import com.amazonaws.services.lambda.runtime.Context
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import com.amazonaws.services.lambda.runtime.RequestHandler
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  7) import kotlinx.serialization.json.JsonElement
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  8) import kotlinx.serialization.json.JsonObject
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500  9) import kotlinx.serialization.json.JsonPrimitive
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) 
+d40e2137 (huncfut 2022-12-03 00:36:39 -0500 11) data class Request(val path: String, val method: String, val body: String)
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 12) data class Response(val statusCode: Int, val body: Map<String, JsonElement>)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 14) fun parseResponse(res: Response): APIGatewayProxyResponseEvent {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 15)     val event = APIGatewayProxyResponseEvent()
+838a540f (huncfut 2022-11-10 22:11:02 -0500 16) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 17)     event.isBase64Encoded = false
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 18)     event.headers = HashMap<String, String>()
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 19)     event.headers["Content-Type"] = "application/json"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 21)     event.statusCode = res.statusCode
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 22)     print(res.body)
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 23)     event.body = JsonObject(res.body).toString()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 24) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 25)     return event
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 26) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 27) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 28) class Server: RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 29)     // Application Scoped Objects
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 30)     private val endpointPing = EndpointPing()
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 31)     private val endpointCreate = EndpointCreate()
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 32)     private val endpointClose = EndpointClose()
+d40e2137 (huncfut 2022-12-03 00:36:39 -0500 33)     private val endpointCardSubmit = EndpointCardSubmit()
+e6c0e356 (huncfut 2022-12-03 18:03:19 -0500 34)     private val endpointCardDelete = EndpointCardDelete()
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 35) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 36)     // The entry point for the lobby API
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 37)     override fun handleRequest(event: APIGatewayProxyRequestEvent?, context: Context?): APIGatewayProxyResponseEvent {
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 38)         if (event == null) return parseResponse(Response(421, mapOf("message" to JsonPrimitive("API request event is null"))))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 39) 
+d40e2137 (huncfut 2022-12-03 00:36:39 -0500 40)         val req = Request(event.path, event.httpMethod, event.body ?: "")
+57326934 (huncfut 2022-12-01 13:02:14 -0500 41)         print(req)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 42) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 43)         return parseResponse(getResponse(req))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 44)     }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 45) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 46)     private fun getResponse(req: Request): Response {
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 47)         return when(req.path) {
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 48)             "/lobby/ping" -> endpointPing.handler(req)
+9a21a749 (huncfut 2022-12-02 14:48:54 -0500 49)             "/lobby/create" -> endpointCreate.handler(req)
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 50)             "/lobby/close" -> endpointClose.handler(req)
+d40e2137 (huncfut 2022-12-03 00:36:39 -0500 51)             "/lobby/card/submit" -> endpointCardSubmit.handler(req)
+e6c0e356 (huncfut 2022-12-03 18:03:19 -0500 52)             "/lobby/card/delete" -> endpointCardDelete.handler(req)
+0327ca4d (huncfut 2022-11-17 13:56:15 -0500 53)             else -> Response(421, mapOf("message" to JsonPrimitive("Path ${req.path} not supported")))
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 54)         }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 55)     }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 56) }
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  1) package app.nulltime.api.lobby
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  2) 
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  3) import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  4) import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  5) import aws.sdk.kotlin.services.dynamodb.model.DeleteItemRequest
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  6) import aws.sdk.kotlin.services.dynamodb.model.GetItemRequest
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  7) 
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  8) 
+489fc587 (huncfut 2022-12-03 01:30:42 -0500  9) suspend fun pingTableEntry(keyName: String, keyVal: String, tableNameVal: String): Boolean {
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 10)   val keyToGet = mapOf(keyName to AttributeValue.S(keyVal))
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 11) 
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 12)   val dbReq = GetItemRequest{
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 13)     key = keyToGet
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 14)     tableName = tableNameVal
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 15)   }
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 16) 
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 17)   DynamoDbClient{ region = "us-east-1" }.use { ddb ->
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 18)     val dbRes = ddb.getItem(dbReq)
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 19)     return dbRes.item != null
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 20)   }
+489fc587 (huncfut 2022-12-03 01:30:42 -0500 21) }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 22) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 23) suspend fun deleteItem(keyName: String, keyVal: String, tableNameVal: String): Boolean {
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 24)   val keyToGet = mapOf(keyName to AttributeValue.S(keyVal))
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 25) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 26)   val dbReq = DeleteItemRequest {
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 27)     key = keyToGet
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 28)     tableName = tableNameVal
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 29)   }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 30) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 31)   DynamoDbClient { region = "us-east-1" }.use { ddb ->
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 32)     ddb.deleteItem(dbReq)
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 33)     return true
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 34)   }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 35) }
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500  3) import kotlinx.coroutines.runBlocking
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500  4) import kotlinx.serialization.MissingFieldException
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500  5) import kotlinx.serialization.Serializable
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500  6) import kotlinx.serialization.decodeFromString
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500  7) import kotlinx.serialization.json.Json
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 10) @Serializable
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 11) data class CardDeleteRequestBody(val id: String)
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 12) 
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 16)             "DELETE" -> delete(req)
+627b1279 (huncfut          2022-12-03 18:11:47 -0500 17)             else -> Response(501, mapOf("message" to JsonPrimitive("${req.method} not supported by ${req.path}")))
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 21)     private fun delete(req: Request): Response = runBlocking {
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 24)         val reqBody = try {
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 25)             Json.decodeFromString<CardDeleteRequestBody>(req.body)
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 26)         } catch(e: MissingFieldException) {
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 27)             body["message"] = JsonPrimitive(e.message)
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 28)             return@runBlocking Response(400, body)
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 29)         }
+627b1279 (huncfut          2022-12-03 18:11:47 -0500 31) 
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 32)         deleteItem("id", reqBody.id, "card-entries")
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 33) 
+dae647d2 (huncfut          2022-12-03 22:11:48 -0500 34)         body["message"] = JsonPrimitive("Deleted ${reqBody.id} from card-entries")
+e6c0e356 (huncfut          2022-12-03 18:03:19 -0500 35)         return@runBlocking Response(200, body)
+5338783a (huncfut          2022-12-03 00:51:54 -0500  3) import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
+5338783a (huncfut          2022-12-03 00:51:54 -0500  4) import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
+5338783a (huncfut          2022-12-03 00:51:54 -0500  5) import aws.sdk.kotlin.services.dynamodb.model.PutItemRequest
+5338783a (huncfut          2022-12-03 00:51:54 -0500  6) import kotlinx.coroutines.runBlocking
+5338783a (huncfut          2022-12-03 00:51:54 -0500  7) import kotlinx.serialization.MissingFieldException
+5338783a (huncfut          2022-12-03 00:51:54 -0500  8) import kotlinx.serialization.Serializable
+5338783a (huncfut          2022-12-03 00:51:54 -0500  9) import kotlinx.serialization.json.Json
+5338783a (huncfut          2022-12-03 00:51:54 -0500 10) import kotlinx.serialization.decodeFromString
+5338783a (huncfut          2022-12-03 00:51:54 -0500 12) import java.security.MessageDigest
+5338783a (huncfut          2022-12-03 00:51:54 -0500 13) import java.util.*
+5338783a (huncfut          2022-12-03 00:51:54 -0500 14) import kotlin.collections.HashMap
+5338783a (huncfut          2022-12-03 00:51:54 -0500 15) import kotlin.random.Random
+5338783a (huncfut          2022-12-03 00:51:54 -0500 16) 
+5338783a (huncfut          2022-12-03 00:51:54 -0500 17) @Serializable
+5338783a (huncfut          2022-12-03 00:51:54 -0500 18) class CardSubmitRequestBody(val lobbyKey: String, val cards: List<String>)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 19) 
+5338783a (huncfut          2022-12-03 00:51:54 -0500 23)             "POST" -> post(req)
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 24)             else -> Response(501, mapOf("message" to JsonPrimitive("${req.method} not supported by ${req.path}")))
+5338783a (huncfut          2022-12-03 00:51:54 -0500 28)     private fun post(req: Request): Response = runBlocking {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 31)         val reqBody = try {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 32)             Json.decodeFromString<CardSubmitRequestBody>(req.body)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 33)         } catch(e: MissingFieldException) {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 34)             body["message"] = JsonPrimitive(e.message)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 35)             return@runBlocking Response(400, body)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 36)         }
+5338783a (huncfut          2022-12-03 00:51:54 -0500 37) 
+bb5e0096 (huncfut          2022-12-03 02:00:00 -0500 38)         if(reqBody.cards.isEmpty()) {
+c9d5f42a (huncfut          2022-12-03 01:31:33 -0500 39)             body["message"] = JsonPrimitive("Cards field empty")
+c9d5f42a (huncfut          2022-12-03 01:31:33 -0500 40)             return@runBlocking Response(400, body)
+c9d5f42a (huncfut          2022-12-03 01:31:33 -0500 41)         }
+c9d5f42a (huncfut          2022-12-03 01:31:33 -0500 42) 
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 43)         if(!pingTableEntry("key", reqBody.lobbyKey, "lobbies")) {
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 44)             body["message"] = JsonPrimitive("Lobby ${reqBody.lobbyKey} does not exist")
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 45)             return@runBlocking Response(400, body)
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 46)         }
+5338783a (huncfut          2022-12-03 00:51:54 -0500 47) 
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 48)         body["id"] = JsonPrimitive(putCards(reqBody))
+5338783a (huncfut          2022-12-03 00:51:54 -0500 49)         return@runBlocking Response(200, body)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 50)     }
+5338783a (huncfut          2022-12-03 00:51:54 -0500 51) 
+5338783a (huncfut          2022-12-03 00:51:54 -0500 52)     private fun hash(data: String): String {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 53)         val salted = data + Random.nextDouble()
+5338783a (huncfut          2022-12-03 00:51:54 -0500 54)         return Base64.getUrlEncoder().encodeToString(
+5338783a (huncfut          2022-12-03 00:51:54 -0500 55)             MessageDigest.getInstance("SHA-256").digest(salted.toByteArray())
+5338783a (huncfut          2022-12-03 00:51:54 -0500 56)         )
+5338783a (huncfut          2022-12-03 00:51:54 -0500 57)     }
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 58)     private suspend fun putCards(input: CardSubmitRequestBody): String {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 59)         val id = hash(input.cards.toString())
+5338783a (huncfut          2022-12-03 00:51:54 -0500 60) 
+5338783a (huncfut          2022-12-03 00:51:54 -0500 61)         val itemValues = mapOf(
+5338783a (huncfut          2022-12-03 00:51:54 -0500 62)             "id" to AttributeValue.S(id),
+5338783a (huncfut          2022-12-03 00:51:54 -0500 63)             "lobbyKey" to AttributeValue.S(input.lobbyKey),
+5338783a (huncfut          2022-12-03 00:51:54 -0500 64)             "cards" to AttributeValue.L(
+5338783a (huncfut          2022-12-03 00:51:54 -0500 65)                 input.cards.map{ card -> AttributeValue.S(card) }
+5338783a (huncfut          2022-12-03 00:51:54 -0500 66)             )
+5338783a (huncfut          2022-12-03 00:51:54 -0500 67)         )
+5338783a (huncfut          2022-12-03 00:51:54 -0500 69)         val dbReq = PutItemRequest {
+5338783a (huncfut          2022-12-03 00:51:54 -0500 70)             item = itemValues
+5338783a (huncfut          2022-12-03 00:51:54 -0500 71)             tableName = "card-entries"
+5338783a (huncfut          2022-12-03 00:51:54 -0500 72)         }
+5338783a (huncfut          2022-12-03 00:51:54 -0500 73) 
+5338783a (huncfut          2022-12-03 00:51:54 -0500 74)         DynamoDbClient { region = "us-east-1" }.use { ddb ->
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 75)             ddb.putItem(dbReq)
+5338783a (huncfut          2022-12-03 00:51:54 -0500 76)             println("Item $id added ${input.cards} to ${input.lobbyKey}")
+5338783a (huncfut          2022-12-03 00:51:54 -0500 77)         }
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 78) 
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 79)         return id
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500  1) package app.nulltime.api.lobby
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500  2) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  3) import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  4) import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  5) import aws.sdk.kotlin.services.dynamodb.model.BatchExecuteStatementRequest
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  6) import aws.sdk.kotlin.services.dynamodb.model.BatchStatementRequest
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500  7) import aws.sdk.kotlin.services.dynamodb.model.ScanRequest
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500  8) import kotlinx.coroutines.runBlocking
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500  9) import kotlinx.serialization.MissingFieldException
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 10) import kotlinx.serialization.Serializable
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 11) import kotlinx.serialization.decodeFromString
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 12) import kotlinx.serialization.json.Json
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 13) import kotlinx.serialization.json.JsonArray
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 14) import kotlinx.serialization.json.JsonElement
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 15) import kotlinx.serialization.json.JsonPrimitive
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 16) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 17) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 18) @Serializable
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 19) data class CloseRequestBody(val lobbyKey: String)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 20) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 21) class EndpointClose {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 22)     fun handler(req: Request): Response {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 23)         return when(req.method) {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 24)             "POST" -> post(req)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 25)             else -> Response(501, mapOf("message" to JsonPrimitive("Method ${req.method} not supported by ${req.path}")))
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 26)         }
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 27)     }
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 28) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 29)     private fun post(req: Request): Response = runBlocking {
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 30)         val body = HashMap<String, JsonElement>()
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 31) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 32)         val reqBody = try {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 33)             Json.decodeFromString<CloseRequestBody>(req.body)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 34)         } catch(e: MissingFieldException) {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 35)             body["message"] = JsonPrimitive(e.message)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 36)             return@runBlocking Response(400, body)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 37)         }
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 38) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 39)         if(!pingTableEntry("key", reqBody.lobbyKey, "lobbies")) {
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 40)             body["message"] = JsonPrimitive("Lobby ${reqBody.lobbyKey} does not exist")
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 41)             return@runBlocking Response(400, body)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 42)         }
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 43) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 44)         body["cards"] = JsonArray(getCards(reqBody.lobbyKey)?.map { card -> JsonPrimitive(card) } ?: listOf())
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 45) 
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 46)         return@runBlocking Response(200, body)
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 47)     }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 48) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 49)     private suspend fun getCards(lobbyKey: String): Set<String>? {
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 50)         val dbReq = ScanRequest {
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 51)             tableName = "card-entries"
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 52)             filterExpression = "lobbyKey = :lk"
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 53)             expressionAttributeValues = mapOf(
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 54)                 ":lk" to AttributeValue.S(lobbyKey)
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 55)             )
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 56)         }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 57) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 58)         DynamoDbClient { region = "us-east-1" }.use {ddb ->
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 59)             val dbRes = ddb.scan(dbReq)
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 60)             if(dbRes.items == null) return null
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 61) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 62)             dbRes.items!!.map { item -> deleteItem("id", item["id"]?.asS() ?: "", "card-entries") }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 63)             deleteItem("key", lobbyKey, "lobbies")
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 64) 
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 65)             return dbRes.items!!.map { item -> item["cards"]}
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 66)                 .filterNotNull()
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 67)                 .flatMap { cards -> cards.asL().map { card -> card.asS() } }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 68)                 .toSet()
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 69)         }
+6a4d28fe (huncfut 2022-12-03 16:57:35 -0500 70)     }
+a7e8fe5f (huncfut 2022-12-03 02:12:15 -0500 71) }
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500  3) import aws.sdk.kotlin.services.dynamodb.DynamoDbClient
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500  4) import aws.sdk.kotlin.services.dynamodb.model.AttributeValue
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500  5) import aws.sdk.kotlin.services.dynamodb.model.GetItemRequest
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500  6) import aws.sdk.kotlin.services.dynamodb.model.PutItemRequest
+6f64fa06 (huncfut          2022-12-01 16:28:00 -0500  8) import kotlin.random.Random
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500  9) import kotlinx.coroutines.runBlocking
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 12)     fun handler(req: Request): Response {
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 14)             "POST" -> post()
+0327ca4d (huncfut          2022-11-17 13:56:15 -0500 15)             else -> Response(501, mapOf("message" to JsonPrimitive("Method ${req.method} not supported by ${req.path}")))
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 19)     private fun post(): Response = runBlocking {
+57326934 (huncfut          2022-12-01 13:02:14 -0500 20)         val body = HashMap<String, JsonPrimitive>()
+57326934 (huncfut          2022-12-01 13:02:14 -0500 21) 
+d40e2137 (huncfut          2022-12-03 00:36:39 -0500 22)         var key = genKey(6)
+489fc587 (huncfut          2022-12-03 01:30:42 -0500 23)         while(pingTableEntry("key", key, "lobbies")) key = genKey(6)
+57326934 (huncfut          2022-12-01 13:02:14 -0500 24) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 25)         putKey(key, "lobbies")
+d40e2137 (huncfut          2022-12-03 00:36:39 -0500 26)         body["lobbyKey"] = JsonPrimitive(key)
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 27) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 28)         return@runBlocking Response(200, body)
+6f64fa06 (huncfut          2022-12-01 16:28:00 -0500 29)     }
+6f64fa06 (huncfut          2022-12-01 16:28:00 -0500 30) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 31)     private suspend fun putKey(keyVal: String, tableNameVal: String) {
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 32)         val itemValues = mapOf("key" to AttributeValue.S(keyVal))
+57326934 (huncfut          2022-12-01 13:02:14 -0500 33) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 34)         val dbReq = PutItemRequest {
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 35)             item = itemValues
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 36)             tableName = tableNameVal
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 37)         }
+57326934 (huncfut          2022-12-01 13:02:14 -0500 38) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 39)         DynamoDbClient { region = "us-east-1" }.use { ddb ->
+d40e2137 (huncfut          2022-12-03 00:36:39 -0500 40)             ddb.putItem(dbReq)
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 41)         }
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 42)     }
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 43) 
+9a21a749 (huncfut          2022-12-02 14:48:54 -0500 44) 
+6f64fa06 (huncfut          2022-12-01 16:28:00 -0500 45)     private fun genKey(keySize: Int): String {
+6f64fa06 (huncfut          2022-12-01 16:28:00 -0500 46)         return (1..keySize).map{ Random.nextInt(0, 9) }.joinToString("")
+57326934 (huncfut          2022-12-01 13:02:14 -0500 47)     }
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500  1) package app.nulltime.api.lobby
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500  2) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  3) import aws.sdk.kotlin.services.dynamodb.model.KeyType
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  4) import kotlinx.coroutines.runBlocking
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  5) import kotlinx.serialization.MissingFieldException
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  6) import kotlinx.serialization.Serializable
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  7) import kotlinx.serialization.json.Json
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500  8) import kotlinx.serialization.json.JsonPrimitive
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500  9) import kotlinx.serialization.decodeFromString
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 10) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 11) @Serializable
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 12) data class PingRequestBody(val lobbyKey: String)
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 13) 
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 14) class EndpointPing {
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 15)   fun handler(req: Request): Response {
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 16)     return when(req.method) {
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 17)       "GET" -> get()
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 18)       "POST" -> post(req)
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 19)       else -> Response(501, mapOf("message" to JsonPrimitive("${req.method} not supported by ${req.path}")))
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 20)     }
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 21)   }
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 22) 
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 23)   private fun get(): Response {
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 24)     return Response(200, mapOf("message" to JsonPrimitive("Hello World")))
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 25)   }
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 26) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 27)   private fun post(req: Request): Response = runBlocking {
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 28)     val body = HashMap<String, JsonPrimitive>()
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 29) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 30)     val reqBody = try {
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 31)       Json.decodeFromString<PingRequestBody>(req.body)
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 32)     } catch(e: MissingFieldException) {
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 33)       body["message"] = JsonPrimitive(e.message)
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 34)       return@runBlocking Response(400, body)
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 35)     }
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 36) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 37)     body["message"] = JsonPrimitive(when(pingTableEntry("key", reqBody.lobbyKey, "lobbies")) {
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 38)       true -> "Lobby ${reqBody.lobbyKey} exists"
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 39)       false -> "Lobby ${reqBody.lobbyKey} does not exist"
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 40)     })
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 41) 
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 42)     return@runBlocking Response(200, body)
+bb5e0096 (huncfut 2022-12-03 02:00:00 -0500 43)   }
+cb6cf6ab (huncfut 2022-12-03 01:41:38 -0500 44) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) plugins {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2)     kotlin("jvm") version "1.7.20"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3)     kotlin("plugin.serialization") version "1.7.20"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4)     id("com.github.johnrengelman.shadow") version "7.1.2"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) group = "app.nulltime.api"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) version = "1.0-SNAPSHOT"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) repositories {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11)     mavenCentral()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 14) dependencies {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 15)     implementation(kotlin("stdlib"))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 16) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 17)     // JSON
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 18)     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 19) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20)     // AWS Integration
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 21)     implementation("com.amazonaws:aws-lambda-java-core")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 22)     implementation("com.amazonaws:aws-lambda-java-events:3.11.0")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 23)     implementation("com.amazonaws:aws-lambda-java-log4j2:1.5.1")
+9a21a749 (huncfut 2022-12-02 14:48:54 -0500 24) //    implementation("software.amazon.awssdk:dynamodb-enhanced:2.18.27")
+6f64fa06 (huncfut 2022-12-01 16:28:00 -0500 25)     implementation("aws.sdk.kotlin:dynamodb:0.17.7-beta")
+9a21a749 (huncfut 2022-12-02 14:48:54 -0500 26)     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+57326934 (huncfut 2022-12-01 13:02:14 -0500 27) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 28) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 29) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 30) buildscript {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 31)     dependencies {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 32)         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 33)     }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 34) }

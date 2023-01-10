@@ -1,0 +1,407 @@
+null-time-web/src/app/app.component.ts
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 11)          //document.body.style.backgroundImage = "url('assets/images/red_swirl_bg.jpg')";
+
+
+null-time-web/src/app/game-join/game-join.component.html
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500  1) <video id="background-video" autoplay loop [muted]="'muted'">
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  2)     <source src="../assets/images/Time.mp4" type="video/mp4">
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  3) </video>
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  4) 
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  5) <img id="musicButton" [src]="gameJoinRef.getMusicButtonSrc" alt="sound off button" (click)="playLobbyMusic()">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  6) <img id="creditsButton" src="../assets/images/credits.png" alt="credits button" (click)="showCredits()"> 
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500  7) <img id="logo" src="../assets/images/logo_transparent.png" alt="null time logo" >
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  8)
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  9)
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 10)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 11) <div *ngIf="!showAddWords && !showCreds">
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 12) <form id="form">
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 15)         <br>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 16)         <br>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 17)         <label id = "label">Enter Game Pin</label>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 18)         <br>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 26)     <br>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 27)     <br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 33) </div>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 34)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 35) <div *ngIf="showCreds" id="form">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 36)     <h2 id="label" style="color: #ffffff">CREDITS</h2>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 37)     <p id="text" style="font-weight: bold; color:#0dc39b">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 38)         DESIGNED AND DEVELOPED BY
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 39)     </p>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 40)     <p id="text">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 41)         Sarah Huang<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 42)         Harrison Hoytt<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 43)         Edward "Bear" Moran<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 44)         Kuba Zeligowski<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 45)         Ryland Seagraves<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 46)     </p>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 47) 
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 48)     <p id="text" style="font-weight: bold; color:#0dc39b">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 49)         <br>MUSIC
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 50)     </p>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 51)     <p id="text">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 52)         Intiruge Fun by Musictown<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 53)         https://pixabay.com/music/id-21661/<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 54)     </p>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 55)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 56)     <p id="text" style="font-weight: bold; color:#0dc39b">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 57)         <br>BACKGROUND
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 58)     </p>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 59)     <p id="text">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 60)         Time Clock Green Lines Circles by tommyvideo<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 61)         https://pixabay.com/videos/id-5359/<br>
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 62)     </p>
+
+
+null-time-web/src/app/game-join/game-join.component.scss
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   1) #background-video {
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   2)     width: 100vw;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   3)     height: 100vh;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   4)     object-fit: cover;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   5)     position: fixed;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   6)     left: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   7)     right: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   8)     top: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   9)     bottom: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  10)     z-index: -1;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  11) }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  12)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  13) #musicButton{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  14)     width: 80px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500  15)     position:   absolute;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500  16)     top:        5px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500  17)     left:       5px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500  18)     text-align: left;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  19)     cursor: pointer;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  20) }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  21)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  22) #creditsButton{
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  23)     width: 70px;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  24)     position:   absolute;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  25)     top:        90px;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  26)     left:       5px;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  27)     text-align: left;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  28)     cursor: pointer;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  29) }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  30)
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  31) #logo{
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  32)     display: block;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  33)     margin-left: auto;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  34)     margin-right: auto;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500  35)     width: 225px;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  36) }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  37)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  38) #form{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  40)     padding: 12px 0px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  41)     margin: 8px 0;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  42)     display: block;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  43)     border: 8px solid rgb(255, 255, 255);
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  44)     border-radius: 4px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  45)     box-sizing: border-box;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  46)     margin-right: auto;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  47)     margin-left: auto;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  48)     font-size: 20px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  49)     text-align: center;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  50)     background-color: black;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  66)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  70)     font-size: 30px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  71)     font-family: 'Verdana', sans-serif;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  72)     color: rgb(255, 255, 255);
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  73)     font-weight: bold;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  77)     background-color: #0da987;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  88)     font-family: 'Verdana', sans-serif;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  89)     border: px solid rgb(255, 255, 255);
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  99)     background-color: #ff0000;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 110)     font-family: 'Verdana', sans-serif;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 111) }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 112)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 113) #text{
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 114)     font-size: 16px;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 115)     font-family: 'Verdana', sans-serif;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 116)     color: rgb(255, 255, 255);
+
+
+null-time-web/src/app/game-join/game-join.component.ts
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  17)   static audio = new Audio();  
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  18)   static musicPlaying: boolean = false;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  19)   static musicLoaded: boolean = false;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  20)   static musicButtonSrc = "../assets/images/sound_off.png";
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  21)   public gameJoinRef = GameJoinComponent;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  22)   showCreds: boolean = false;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  23)
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  24)   constructor(private router: Router, private dialogService : DialogService) {
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  25)   }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  27)   ngOnInit(): void {
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  28)     GameJoinComponent.musicButtonSrc = "../assets/images/sound_off.png";
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  37)    // if(Number(input) == GameLobbyComponent.gameCode){
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  41)    // else{
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  42)    //   this.showErrorMessage();
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  43)   //  }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  44)  // }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  59)       title: 'Incorrect Game Pin!',
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  60)       message: 'Please try a different Game Pin.'});
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  63)   playLobbyMusic(){
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  64)     //Music is turned on for first time
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  65)     if(GameJoinComponent.musicPlaying == false && GameJoinComponent.musicLoaded == false){
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  66)       GameJoinComponent.audio.src = "../assets/music/intrigue_fun.mp3";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  67)       GameJoinComponent.audio.load();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  68)       GameJoinComponent.audio.play();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  69)       GameJoinComponent.audio.loop = true;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  70)       GameJoinComponent.musicLoaded = true;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  71)       GameJoinComponent.musicPlaying = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  72)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_on.png";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  73)     }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  74)     //Music is turned off
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  75)     else if(GameJoinComponent.musicPlaying == true && GameJoinComponent.musicLoaded == true){
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  76)       GameJoinComponent.audio.pause();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  77)       GameJoinComponent.musicPlaying = false;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  78)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_off.png";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  79)     }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  80)     //Music is turned back on
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  81)     else if(GameJoinComponent.musicPlaying == false && GameJoinComponent.musicLoaded == true){
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  82)       GameJoinComponent.audio.play();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  83)       GameJoinComponent.musicPlaying = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  84)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_on.png";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  85)     }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  86)   }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  87)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  88)   static get getMusicButtonSrc(){
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  89)     return GameJoinComponent.musicButtonSrc;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  90)   }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  91)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  92)   showCredits(){
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  93)     if(this.showCreds == false){
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  94)       this.showCreds = true;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  95)     }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  96)     else{
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  97)       this.showCreds = false;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  98)     }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  99)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 100)   }
+
+
+
+null-time-web/src/app/game-lobby/game-lobby.component.html
+4335235 (Sarah Huang    2022-11-29 14:53:48 -0500  1) <video id="background-video" loop autoplay [muted]="'muted'">
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  2)   <source src="../assets/images/Time.mp4" type="video/mp4">
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  3) </video>
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  4) 
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  5) <img id="musicButton" [src]="gameJoinRef.getMusicButtonSrc" alt="sound off button" (click)="playLobbyMusic()">
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500  6) <img id="logo" src="../assets/images/logo_transparent.png" alt="null time logo" (click) = "returnHome()">57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  7) 
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  9) <div class="body" *ngIf="!showAddingWords && !showPlayingGame">
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 10)     <h2 id = "subtitle">Enter cards with Game Pin: </h2>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 13) <textarea style = "width: 200px; height: 180px;" readonly id = 'cardCounter'>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 16) Card Counter:
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 24)     style=background-color:#3498DB>Enter Cards</button>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 30)     style=background-color:#E67E22>Create New Lobby</button>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 33)     style=background-color:#ff0000>Create Local Game</button>
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 40)   <textarea style = "width: 200px; height: 180px;" readonly id = 'cardCounter'>
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 43) Card Counter:
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 45) {{getWordCount}}
+
+
+
+null-time-web/src/app/game-lobby/game-lobby.component.scss
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  1) #background-video {
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  2)     width: 100vw;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  3)     height: 100vh;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  4)     object-fit: cover;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  5)     position: fixed;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  6)     left: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  7)     right: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  8)     top: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500  9)     bottom: 0;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 10)     z-index: -1;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 11)   }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 12)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 13) #musicButton{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 14)     width: 80px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500 15)     position:   absolute;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500 16)     top:        5px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500 17)     left:       5px;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500 18)     text-align: left;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 19)     cursor: pointer;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 20) }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 21)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 22) #logo{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 23)     display: block;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 24)     margin-left: auto;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 25)     margin-right: auto;
+629eca4e (Sarah Huang    2022-11-29 13:08:16 -0500 26)     width: 225px;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 27)     cursor: pointer;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 28) }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 29)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 30) .body{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 32)     padding: 12px 0px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 33)     margin: 8px 0;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 34)     display: block;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 35)     border: 8px solid rgb(255, 255, 255);
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 36)     border-radius: 4px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 37)     box-sizing: border-box;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 38)     margin-right: auto;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 39)     margin-left: auto;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 40)     font-size: 20px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 42)     background-color: black;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 45) textarea {
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 46)     font-family: Verdana, Geneva, Tahoma, sans-serif;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 47)     font-weight: bold;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 48)     text-align: center;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 49)     border: 8px solid rgb(0, 0, 0);
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 50)   }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 51)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 54)     font-family: 'Verdana', sans-serif;
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 55)     font-size: 25px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 61)     color: #16e4b8;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 62)     font-family: 'Verdana', sans-serif;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 66)
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 67) #cardCounter{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 75)
+c8bcf9c7 (Sarah Huang    2022-11-29 10:18:52 -0500 84) }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 85) #bigButton{
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 86)     font-family: Verdana, Geneva, Tahoma, sans-serif;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 88)     font-size: 18px;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 89) }
+
+
+null-time-web/src/app/game-lobby/game-lobby.component.ts
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500   7) import { GameJoinComponent } from '../game-join/game-join.component';
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  25)   static musicButtonSrc = "";
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500  26)   public gameJoinRef = GameJoinComponent;
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 111)
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 112)   playLobbyMusic(){
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 113)     //Music is turned on for first time
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 114)     if(GameJoinComponent.musicPlaying == false && GameJoinComponent.musicLoaded == false){
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 115)       GameJoinComponent.audio.src = "../assets/music/intrigue_fun.mp3";
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 116)       GameJoinComponent.audio.load();
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 117)       GameJoinComponent.audio.play();
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 118)       GameJoinComponent.audio.loop = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 119)       GameJoinComponent.musicLoaded = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 120)       GameJoinComponent.musicPlaying = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 121)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_on.png";
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 122)     }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 123)     //Music is turned off
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 124)     else if(GameJoinComponent.musicPlaying == true && GameJoinComponent.musicLoaded == true){
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 125)       GameJoinComponent.audio.pause();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 126)       GameJoinComponent.musicPlaying = false;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 127)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_off.png";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 128)     }
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 129)     //Music is turned back on
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 130)     else if(GameJoinComponent.musicPlaying == false && GameJoinComponent.musicLoaded == true){
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 131)       GameJoinComponent.audio.play();
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 132)       GameJoinComponent.musicPlaying = true;
+4f66fb2d (Sarah Huang    2022-11-29 10:15:01 -0500 133)       GameJoinComponent.musicButtonSrc = "../assets/images/sound_on.png";
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 134)     }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 135)   }
+57572ae0 (Sarah Huang    2022-11-28 20:58:05 -0500 136)
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 137)   returnHome(){
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 138)     this.router.navigateByUrl('');
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 139)   }
+fb913315 (Sarah Huang    2022-11-29 22:40:56 -0500 140)
+
+
+null-time-web/src/app/dialogs/confirm/confirm.component.html
+4f66fb2d (Sarah Huang 2022-11-29 10:15:01 -0500 13)     <button id="cancel"mat-raised-button [mat-dialog-close]="false">{{data.cancelText}}</button>
+4f66fb2d (Sarah Huang 2022-11-29 10:15:01 -0500 14)     <button id="confirm" mat-raised-button color="warn" [mat-dialog-close]="true">{{data.confirmText}}</button>
+
+
+null-time-web/src/app/dialogs/confirm/confirm.component.scss
+4f66fb2d (Sarah Huang 2022-11-29 10:15:01 -0500 2)     font-family: 'Verdana', sans-serif;
+
+
+null-time-web/src/app/dialogs/message/message.component.scss
+4f66fb2d (Sarah Huang 2022-11-29 10:15:01 -0500 2)     font-family: 'Verdana', sans-serif;
+
+
+null-time-web/src/app/game-card-list/game-card-list.component.html 
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500  3)         <div id="body" *ngIf="showAsList" style="max-width: 500px; margin: auto; text-align: center;">
+
+
+null-time-web/src/app/game-card-list/game-card-list.component.scss
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 60)
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 61) #body{
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 63)     padding: 12px 0px;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 64)     margin: 8px 0;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 65)     display: block;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 66)     border: 8px solid rgb(255, 255, 255);
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 67)     border-radius: 4px;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 68)     box-sizing: border-box;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 69)     margin-right: auto;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 70)     margin-left: auto;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 71)     font-size: 20px;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 72)     text-align: center;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 73)     background-color: black;
+c4335235 (Sarah Huang    2022-11-29 14:53:48 -0500 74) }
+
+
+null-time-web/src/app/game/round/round-page/round-page.component.html
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  3) <div *ngIf="currentRoundPhase == 0" id="box">
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  5)   <h1 style="color:#0dc39b">Round {{getService().getCurrentRound()}}</h1>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  7)   <br>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  8)   <img id="diagram" src="{{getRoundDiagram()}}" alt="round diagram">
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  9)   <br>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 11)   <br>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 15) <div *ngIf="currentRoundPhase == 1" id="box">
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 33) <div class="game-over-panel" *ngIf="currentRoundPhase == 3" id="box">
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 34)   <h1 style="color:#0dc39b">Game Over!</h1>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 35)   <img id="diagram" src="../assets/images/gameOver.png" alt="game over diagram">
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 38)   <br>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 40)   <br>
+
+
+null-time-web/src/app/game/round/round-page/round-page.component.scss
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  4) }
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  5) 
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  6) #box{
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  8)     padding: 12px 0px;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  9)     margin: 8px 0;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 10)     display: block;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 11)     border: 8px solid rgb(255, 255, 255);
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 12)     border-radius: 4px;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 13)     box-sizing: border-box;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 14)     margin-right: auto;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 15)     margin-left: auto;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 16)     background-color: black;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 17) 
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 18)     text-align: center; 
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 19)     color: white;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 20)     font-family: Verdana, Geneva, Tahoma, sans-serif;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 21) }
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 22)
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 23) #diagram{
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 24)     display: block;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 25)     margin-left: auto;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 26)     margin-right: auto;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 27)     width: 300px;
+
+
+null-time-web/src/app/game/round/round-page/round-page.component.ts
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 40)
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 41)   getRoundDiagram(){
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 42)     if(this.service.getCurrentRound() == 1){
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 43)         return "./assets/images/round1.png";
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 44)     }
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 45)     else if(this.service.getCurrentRound() == 2){
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 46)       return "./assets/images/round2.png";
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 47)     }
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 48)     else{
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 49)       return "./assets/images/round3.png";
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 50)     }
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 51)   }
+
+
+null-time-web/src/app/game/round/turn-play-page/turn-play-page.component.html
+a17ff4f4 (Sarah Huang 2022-11-30 01:12:23 -0500 1) <h1 style="color: white; font-size: 70px;">{{getTimeRemaining()}}</h1>
+a17ff4f4 (Sarah Huang 2022-11-30 01:12:23 -0500 2) <h2>{{getCardList().length}} Card(s) Left</h2>
+
+
+null-time-web/src/app/game/round/turn-start-page/turn-start-page.component.html
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  3)   <h1 style="color:#0dc39b">Team {{getCurrentTeam()}}'s Turn!</h1>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  4)   <h2>{{getRemainingCards()}} Remaining Card(s)</h2>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  5)   <br>
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  7)   <br>
+
+
+null-time-web/src/styles.scss
+17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  4)   background-color: #ff0000;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500  7)   padding: 15px;
+a17ff4f4 (Sarah Huang    2022-11-30 01:12:23 -0500 16)   font-family: 'Verdana', sans-serif;

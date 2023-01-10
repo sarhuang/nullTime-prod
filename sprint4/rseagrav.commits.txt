@@ -1,0 +1,136 @@
+aws/api/lobby/src/main/kotlin/enpointCardSubmit.kt
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500  4) import kotlinx.serialization.Serializable
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500  5) import java.security.MessageDigest
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500  6) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500  7) @Serializable
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500  8) data class CardSubmitRequestBody(val lobbyKey: String, val cards: List<String>)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10) class EndpointCardSubmit {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12)         return when(req.method) {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 13)             "POST" -> post(req)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 18)     private fun post(req: Request): Response = runBlocking {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 19)         
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 20)         val reqBody = Json.decodeFromString<CardSubmitRequestBody>(req.body)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 21)         val resBody = HashMap<String, JsonPrimitive>()
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 22) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 23)         if (!CheckLobby(reqBody.lobbyKey)) {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 24)             resBody["status"] = JsonPrimitive(false)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 25)             return@runBlocking Response(404, resBody)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 26)         }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 27) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 28)         id = getHash(reqBody.cards)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 29) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 30)         if (!putCards(lobbyKey, cards, id)) {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 31)             resbody["status"] = JsonPrimitive(false)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 32)             return@runBlocking Response(500, resBody)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 33)         }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 34) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 35)         resBody["status"] = JsonPrimitive(true)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 36)         resBody["id"] = JsonPrimitive(id)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 37) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 38)         return@runBlocking Response(200, resBody)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 39)     }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 40) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 41)     private fun getHash(val cards: List<String>): String {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 42) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 43)         val bytes = cards.toString().toByteArray()
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 44)         val md = MessageDigest.getInstance("SHA-256")
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 45)         val digest = md.digest(bytes)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 46) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 47)         val result = digest.fold("", {str, it -> str + "%02x".format(it)})
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 48) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 49)         return result
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 50)     }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 51) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 52)     private suspend fun checkItem(keyVal: String): Boolean {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 53)         val keyToGet = mapOf("key" to AttributeValue.S(keyVal))
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 54) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 55)         val dbReq = GetItemRequest{
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 56)             key = keyToGet
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 57)             tableName = "lobbies"
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 58)         }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 59) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 60)         DynamoDbClient{ region = "us-east-1" }.use {ddb ->
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 61)         val dbRes = ddb.getItem(dbReq)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 62)         return if(dbRes.item == null) false else true
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 63)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 64) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 65)         return false
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 66)     }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 67) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 68)     private suspend fun putCards(lobbyKey: String, cards: List<String>, id: String): Boolean {
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 69)         val itemValues = mapOf(
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 70)             "id" to AttributeValue.S(id)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 71)             "lobbyKey" to AttributeValue.S(lobbyKey),
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 72)             "cards" to AttributeValue.L(
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 73)                 cards.map{ card -> AttributeValue.S(card) }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 74)             )
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 75)         )
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 76) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 77)         val dbReq = PutItemRequest{
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 78)             item = itemValues
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 79)             tableName = "card-entries"
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 80)         }
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 81) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 82)         DynamoDbClient { region = "us-east-1" }.use {ddb ->
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 83)             ddb.putItem(dbReq)
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 84)         return true
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 85)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 86) 
+e25eb8ab (Ryland-Seagraves 2022-12-02 17:45:22 -0500 87)         return false
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 88)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 89) }
+aws/api/lobby/src/main/kotlin/enpointCardDelete.kt
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500  4) import kotlinx.serialization.Serializable
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500  5) import java.security.MessageDigest
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500  6) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500  7) @Serializable
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500  8) data class CardSubmitRequestBody(val id: String)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10) class EndpointCardDelete {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)             "DELETE" -> delete()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 18)     private fun delete(req: Request): Response = runBlocking{
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 19)         val reqBody = Json.decodeFromString<CardSubmitRequestBody>(req.body)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 20)         val resBody = HashMap<String, JsonPrimitive>()
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 21) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 22)         if(deleteCards(reqBody.id)) {
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 23)             resBody["status"] = JsonPrimitive(true)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 24)             return@runBlocking Response(200, resBody)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 25)         }
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 26) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 27)         resBody["status"] = JsonPrimitive(false)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 28)         return@runBlocking Response(404, resBody)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 29)     }
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 30) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 31)     private suspend fun deleteCards(id: String): Boolean {
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 32)         val idToGet = mapOf("id" to AttributeValue.S(id))
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 33) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 34)         val dbReq = DeleteItemRequest {
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 35)             tableName = "card-entries"
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 36)             key = idToGet
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 37)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 38) 
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 39)         DynamoDbClient { region = "us-east-1" }.use { ddb ->
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 40)             ddb.deleteItem(dbReq)
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 41)             return true
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 42)         }
+759f7727 (Ryland-Seagraves 2022-12-02 18:43:32 -0500 43)         return false
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 44)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 45) }
