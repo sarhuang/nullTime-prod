@@ -1,0 +1,155 @@
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) import * as cdk from 'aws-cdk-lib';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) import { Construct } from 'constructs';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import { HttpApi, HttpMethod, PayloadFormatVersion} from '@aws-cdk/aws-apigatewayv2-alpha'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import * as lambda from 'aws-cdk-lib/aws-lambda'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) // import * as sqs from 'aws-cdk-lib/aws-sqs';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) export class CdkStack extends cdk.Stack {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9)   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10)     super(scope, id, props);
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12)     const lobbyHandler = new lambda.Function(this, "lobbyHandler", {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13)       runtime: lambda.Runtime.JAVA_11,
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 14)       code: lambda.Code.fromAsset("../api/lobby/build/libs/lobby-1.0-SNAPSHOT-all.jar"),
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 15)       handler: "app.nulltime.api.lobby.Server::handleRequest"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 16)     })
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 17)     const lobbyIntegration = new HttpLambdaIntegration("lobbyIntegration", lobbyHandler, {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 18)       payloadFormatVersion: PayloadFormatVersion.VERSION_1_0
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 19)     })
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 21)     const api = new HttpApi(this, 'NullTime API')
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 22) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 23)     api.addRoutes({
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 24)       path: "/lobby/{proxy+}",
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 25)       methods: [ HttpMethod.ANY ],
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 26)       integration: lobbyIntegration
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 27)     })
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 28)   }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 29) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) #!/usr/bin/env node
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) import 'source-map-support/register';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import * as cdk from 'aws-cdk-lib';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import { CdkStack } from '../lib/cdk-stack';
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import * as dotenv from 'dotenv'
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) dotenv.config()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) const stackEnvProd = { account: process.env.AWS_ACCOUNT, region: process.env.AWS_PROD_REGION }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) const app = new cdk.App();
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12) new CdkStack(app, 'CdkStack', { env: stackEnvProd });
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) plugins {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2)     kotlin("jvm") version "1.7.20"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3)     kotlin("plugin.serialization") version "1.7.20"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4)     id("com.github.johnrengelman.shadow") version "7.1.2"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) group = "app.nulltime.api"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) version = "1.0-SNAPSHOT"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) repositories {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11)     mavenCentral()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 14) dependencies {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 15)     implementation(kotlin("stdlib"))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 16) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 17)     // JSON
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 18)     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 19)     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 21)     // AWS Integration
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 22)     implementation("com.amazonaws:aws-lambda-java-core")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 23)     implementation("com.amazonaws:aws-lambda-java-events:3.11.0")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 24)     implementation("com.amazonaws:aws-lambda-java-log4j2:1.5.1")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 25) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 26) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 27) buildscript {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 28)     dependencies {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 29)         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 30)     }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 31) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) package app.nulltime.api.lobby
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) import com.amazonaws.services.lambda.runtime.Context
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) import com.amazonaws.services.lambda.runtime.RequestHandler
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  7) import kotlinx.serialization.json.JsonElement
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  8) import kotlinx.serialization.json.JsonObject
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 10) data class Request(val path: String, val method: String, val body: String?)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 12) data class Response(val statusCode: Int, val body: Map<String, JsonElement>?)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 14) fun parseResponse(res: Response): APIGatewayProxyResponseEvent {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 15)     val event = APIGatewayProxyResponseEvent()
+838a540f (huncfut 2022-11-10 22:11:02 -0500 16) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 17)     // Dummy
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 18)     event.isBase64Encoded = false
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 19)     event.headers = HashMap<String, String>()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 21)     event.statusCode = res.statusCode
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 22)     event.body = if(event.body == null) "" else JsonObject(res.body!!).toString()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 23) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 24)     return event
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 25) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 26) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 27) class Server: RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 28)     // Application Scoped Objects
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 29)     private val endpointHello = EndpointHello()
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 30) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 31)     // The entry point for the lobby API
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 32)     override fun handleRequest(event: APIGatewayProxyRequestEvent?, context: Context?): APIGatewayProxyResponseEvent {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 33)         if (event == null) return parseResponse(Response(421, HashMap()))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 34) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 35)         val req = Request(event.path, event.httpMethod, event.body)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 36) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 37)         return parseResponse(getResponse(req))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 38)     }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 39) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 40)     private fun getResponse(req: Request): Response {
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 41)         return when(req.path) {
+838a540f (huncfut 2022-11-10 22:11:02 -0500 42)             "/lobby/hello" -> endpointHello.handler(req)
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 43)             else -> Response(421, null)
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 44)         }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 45)     }
+b265f03f (huncfut 2022-11-10 15:30:26 -0500 46) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) package app.nulltime.api.lobby
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  4) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) class EndpointHello {
+838a540f (huncfut 2022-11-10 22:11:02 -0500  6)     fun handler(req: Request): Response {
+838a540f (huncfut 2022-11-10 22:11:02 -0500  7)         return when(req.method) {
+838a540f (huncfut 2022-11-10 22:11:02 -0500  8)             "GET" -> get()
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500  9)             else -> Response(501, HashMap())
+838a540f (huncfut 2022-11-10 22:11:02 -0500 10)         }
+838a540f (huncfut 2022-11-10 22:11:02 -0500 11)     }
+838a540f (huncfut 2022-11-10 22:11:02 -0500 12) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 13)     private fun get(): Response {
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 15) 
+8f7e505f (huncfut 2022-11-10 23:23:17 -0500 16)         body["message"] = JsonPrimitive("Hello world")
+838a540f (huncfut 2022-11-10 22:11:02 -0500 17) 
+838a540f (huncfut 2022-11-10 22:11:02 -0500 18)         return Response(200, body)
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 19)     }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 20) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 1) rootProject.name = "api"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 2) include("lobby")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 3) include("game")
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  1) plugins {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  2)     kotlin("jvm") version "1.7.20"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  3) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  4) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  5) group = "app.nulltime.api"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  6) version = "1.0-SNAPSHOT"
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  7) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  8) repositories {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500  9)     mavenCentral()
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 10) }
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 11) 
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 12) dependencies {
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 13)     implementation(kotlin("stdlib"))
+5a3c8f7c (huncfut 2022-11-10 08:26:46 -0500 14) }

@@ -1,0 +1,22 @@
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  1) <!DOCTYPE html>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  2) <html>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  3)     <head>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  4)         <title>turn Page</title>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  5)     </head>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  6)     <body style="background-color:powderblue;">
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  7)         <!-- need to update this to show which team's turn it is-->
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  8)         <h1>Team X</h1>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400  9)         <h2>DISPLAY CARD HERE</h2>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 10)         <!--clikcing "skip" skips the current card-->
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 11)         <button
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 12)         id = "skip"
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 13)         onclick = skip_card()
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 14)         style="background-color:red"
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 15)         >
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 16)             Skip
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 17)         </button>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 18)         <!--need to add timer functionality-->
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 19)         <!--when timer ends, move on to next turn/round-->
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 20)         <div>Display countdown timer for 30s</div>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 21)     </body>
+8e9082f9 (emoran11 2022-10-13 03:09:23 -0400 22) </html>

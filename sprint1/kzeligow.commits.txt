@@ -1,0 +1,73 @@
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  1) import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  2) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  3) plugins {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  4)     kotlin("jvm") version "1.7.10"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  5) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  6)     // Apply the application plugin to add support for building a CLI application in Java.
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  7)     application
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  8) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  9) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 10) group = "nullTime"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 11) version = "1.0-SNAPSHOT"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 12) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 13) repositories {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 14)     // Use Maven Central for resolving dependencies.
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 15)     mavenCentral()
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 16) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 17) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 18) dependencies {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 19)     // Align versions of all Kotlin components
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 20)     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 21) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 22)     // Use the Kotlin JDK 8 standard library.
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 23)     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 24) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 25)     // This dependency is used by the application.
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 26)     implementation("com.google.guava:guava:31.0.1-jre")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 27) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 28)     // AWS
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 29)     //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 30)     //implementation("aws.sdk.kotlin:s3:0.17.5-beta")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 31) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 32)     testImplementation(kotlin("test"))
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 33) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 34) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 35) tasks.withType<Test> {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 36)     useJUnitPlatform()
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 37) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 38) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 39) tasks.withType<KotlinCompile>() {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 40)     kotlinOptions.jvmTarget = "1.8"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 41) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 42) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 43) application {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 44)     // Define the main class for the application.
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 45)     mainClass.set("createGame.handlerHelloWorldKt")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 46) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 1) rootProject.name = "null-time-api"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 2) include("createGame")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  1) package createGame
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  2) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  3) class handlerHelloWorld {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  4)     fun apply() {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  5)         return "Hello World!"
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  6)     }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  7) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  8) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  9) fun main() {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 10)     println(handlerHelloWorld.apply())
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 11) }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  1) package createTest
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  2) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  3) import kotlin.test.Test
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  4) import kotlin.test.assertNotNull
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  5) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  6) class testHandlerHelloWorld {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  7)     val target = handlerHelloWorld()
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  8) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200  9)     @Test
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 10)     fun returnsHelloWorld() {
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 11)         assertNotNull(target.apply(), "Hell World!")
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 12)     }
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 13) 
+90d453a9 (huncfut 2022-10-14 01:23:54 +0200 14) }

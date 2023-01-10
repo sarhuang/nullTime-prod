@@ -1,0 +1,104 @@
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  1) import { Component, OnInit, Input } from '@angular/core';
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  2) import { IGameCard } from 'src/gameHelper/interfaces';
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  3) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  4) @Component({
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  5) 	selector: 'app-game-card',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  6) 	templateUrl: './game-card.component.html',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  7) 	styleUrls: ['./game-card.component.scss']
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  8) })
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  9) export class GameCardComponent implements OnInit {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 10) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 11) 	//The @Input() decorator tells Angular that the given component can expect 'card' as a given property
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 12) 	@Input() card: IGameCard | null;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 13) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 14) 	isEditing: boolean = false;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 15) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 16) 	toggleEdit = () => {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 17) 		this.isEditing = !this.isEditing;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 18) 	}
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 19) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 20) 	constructor() { 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 21) 		this.card = null;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 22) 	}
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 23) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 24) 	ngOnInit(): void {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 25) 	}
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 26) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 27) }
+
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  1) <!--  *ngIf is a directive that only renders the element to the DOM if the condition is true -->
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  2) <mat-card *ngIf="!!card" class="game-card">
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  3)     <mat-card-title *ngIf="!isEditing" (click)="toggleEdit()" class="card-title">{{card.value}}</mat-card-title>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  4)     <mat-card-title *ngIf="isEditing">
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  5)         <!-- [{ngModel}] is how we set up two way binding. (blur) binds the blur event to our toggleEdit function -->
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  6)         <input [(ngModel)]="card.value" (blur)="toggleEdit()" autofocus />
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  7)     </mat-card-title>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  8) </mat-card>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  9) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 10) <mat-card *ngIf="!card" class="game-card">
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 11)     <mat-card-title class="card-title">Dev error: No card provided</mat-card-title>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 12) </mat-card>
+
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  1) .game-card {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  2)     width: 300px;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  3)     height: 150px;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  4)     margin: 10px;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  5)     display: flex;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  6)     align-items: center;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  7)     justify-content: center;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  8)     text-align: center;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  9) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 10)     .card-title {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 11)         text-transform: uppercase;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 12)         font-size: 36px;
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 13)     }
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 14) }
+
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  1) import { Component, OnInit } from '@angular/core';
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  2) import { IGameCard } from 'src/gameHelper/interfaces';
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  3) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  4) @Component({
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  5) 	selector: 'app-game-card-list',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  6) 	templateUrl: './game-card-list.component.html',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  7) 	styleUrls: ['./game-card-list.component.scss']
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  8) })
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400  9) export class GameCardListComponent implements OnInit {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 10) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 11) 	allCards: IGameCard[] = [];
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 12) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 13) 	constructor() { }
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 14) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 15) 	ngOnInit(): void {
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 16) 		this.allCards.push({
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 17) 			id: '1',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 18) 			value: 'Card 1',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 19) 			owner: 0
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 20) 		});
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 21) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 22) 		this.allCards.push({
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 23) 			id: '2',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 24) 			value: 'Card 2',
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 25) 			owner: 0
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 26) 		});
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 27) 	}
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 28) 
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 29) 	addCard(): void {
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 30) 		this.allCards.push({
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 31) 			//TODO: Generate a guid instead of a random number
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 32) 			id: Math.random().toString(),
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 33) 			value: 'Click to Edit',
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 34) 			owner: 0
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 35) 		});
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 36) 	}
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 37) 
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 38) }
+
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 1) <div>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 2)     <h2>Card List</h2>
+8eaf9bff (Harrison Hoytt 2022-10-12 12:11:33 -0400 3)     <button (click)="addCard()">Add Card</button>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 4)     <!-- *ngFor is a directive that iterates through allCards, renders the given element to the DOM, and gives us a referece to an object in allCards to use -->
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 5)     <div *ngFor="let card of allCards">
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 6)         <!-- [card] is us binding the given card to the given component -->
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 7)         <app-game-card [card]="card"></app-game-card>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 8)     </div>
+51570950 (Harrison Hoytt 2022-10-09 15:14:00 -0400 9) </div>

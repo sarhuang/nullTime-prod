@@ -1,0 +1,176 @@
+confirm.component.html
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  1) <div class="header">
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  2)     <h2 mat-dialog-title>{{data.title}}</h2>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  3)     <button mat-icon-button [mat-dialog-close]="false">
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  4)         <mat-icon>close</mat-icon>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  5)     </button>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  6) </div>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  7)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  8) <div mat-dialog-content>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  9)     {{data.message}}
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 10) </div>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 11)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 12) <div mat-dialog-actions [align]="'end'">
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 13)     <button mat-raised-button [mat-dialog-close]="false">{{data.cancelText}}</button>       
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 14)     <button mat-raised-button color="primary" [mat-dialog-close]="true">{{data.confirmText}}</button>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 15) </div>
+
+confirm.component.scss
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 1) .header{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 2)     font-family: 'Raleway', sans-serif;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 3)     display: flex;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 4)     justify-content: space-between;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 5)     align-items: center;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 6) }
+
+confirm.component.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  1) import { Component, Inject, OnInit } from '@angular/core';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  2) import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  3) import { ConfirmDialogData } from 'src/app/reusable/confirm-dialog-data';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  4)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  5) @Component({
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  6)   selector: 'app-confirm',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  7)   templateUrl: './confirm.component.html',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  8)   styleUrls: ['./confirm.component.scss']
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  9) })
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 10) export class ConfirmComponent implements OnInit {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 11)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 12)   constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData) { }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 13)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 14)   ngOnInit(): void {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 15)   }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 16)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 17) }
+
+message.component.html
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  1) <div class="header">
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  2)     <h2 mat-dialog-title>{{data.title}}</h2>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  3)     <button mat-icon-button [mat-dialog-close]="false">
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  4)         <mat-icon>close</mat-icon>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  5)     </button>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  6) </div>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  7) 
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  8) <div mat-dialog-content>
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  9)     {{data.message}}
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 10) </div>
+
+message.component.scss
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 1) .header{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 2)     font-family: 'Raleway', sans-serif;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 3)     display: flex;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 4)     justify-content: space-between;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 5)     align-items: center;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 6) }
+
+message.component.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  1) import { Component, Inject, OnInit } from '@angular/core';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  2) import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  3) import { MessageDialogData } from 'src/app/reusable/message-dialog-data';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  4) 
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  5) @Component({
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  6)   selector: 'app-message',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  7)   templateUrl: './message.component.html',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  8)   styleUrls: ['./message.component.scss']
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  9) })
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 10) export class MessageComponent implements OnInit {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 11)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 12)   constructor(@Inject(MAT_DIALOG_DATA) public data: MessageDialogData) { }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 13)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 14)   ngOnInit(): void {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 15)   }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 16)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 17) }
+
+game-join.component.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 17)   constructor(private router: Router, private dialogService : DialogService) { }
+238dff6f (Sarah Huang 2022-11-07 15:40:14 -0500 29)     else{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 30)       this.showErrorMessage();
+238dff6f (Sarah Huang 2022-11-07 15:40:14 -0500 31)     }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 45)   showErrorMessage(){
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 46)     this.dialogService.messageDialog({
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 47)       title: 'Incorrect Game Pin',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 48)       message: 'Please enter a different Game Pin.'});
+238dff6f (Sarah Huang 2022-11-07 15:40:14 -0500 49)   }
+
+game-lobby.component.ts
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  45)       this.createNewLobbyConfirm();
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  46)   }
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  47)
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  48)   createNewLobbyConfirm(){
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  49)       this.dialogService.confirmDialog({
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  50)       title: 'Are you sure you want to create a new lobby?',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  51)       message: 'All words will be erased and the Game Pin will change.',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  52)       confirmText: 'Confirm',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  53)       cancelText: 'Cancel',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  54)       answer: this.confirm}).subscribe(result => {
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  55)         this.confirm = result;
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  56)         if(this.confirm){
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  57)           GameLobbyComponent.gameCode = Math.floor(Math.random() * 90000) + 10000;      
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  58)           GameLobbyComponent.wordCount = 0;
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  59)           GameLobbyComponent.gameCardList.splice(0);
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  60)         }
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  61)       });
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  84)   createLocalGameConfirm(){
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  85)     this.dialogService.confirmDialog({
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  86)     title: 'Are you sure you want to start a local game?',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  87)     message: 'All words will be erased and the Game Pin will be unusable.',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  88)     confirmText: 'Confirm',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  89)     cancelText: 'Cancel',
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  90)     answer: this.confirm}).subscribe(result => {
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  91)       this.confirm = result;
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  92)       if(this.confirm){
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  93)         GameLobbyComponent.gameCode = Math.floor(Math.random() * 90000) + 10000;        
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  94)         GameLobbyComponent.wordCount = 0;
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  95)         GameLobbyComponent.gameCardList.splice(0);
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  96)         this.addWords();
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  97)       }
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  98)     });
+c18c7924 (Sarah Huang    2022-11-08 02:00:30 -0500  99) }
+
+
+confirm-dialog-data.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 1) export interface ConfirmDialogData{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 2)     title: string;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 3)     message: string;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 4)     confirmText: string;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 5)     cancelText: string;
+c18c7924 (Sarah Huang 2022-11-08 02:00:30 -0500 6)     answer: boolean;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 7) }
+
+message-dialog-data.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 1) export interface MessageDialogData{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 2)     title: string;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 3)     message: string;
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 4) }
+
+dialog.service.ts
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  1) import { Injectable } from '@angular/core';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  2) import { MatDialog } from '@angular/material/dialog';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  3) import { Observable } from 'rxjs';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  4) import { ConfirmComponent } from '../dialogs/confirm/confirm.component';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  5) import { MessageComponent } from '../dialogs/message/message.component';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  6) import { ConfirmDialogData } from '../reusable/confirm-dialog-data';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  7) import { MessageDialogData } from '../reusable/message-dialog-data';
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  8)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500  9)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 10) @Injectable({
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 11)   providedIn: 'root',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 12) })
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 13)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 14) export class DialogService {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 15)   constructor(private dialog: MatDialog) {}
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 16)
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 17)   confirmDialog(data: ConfirmDialogData): Observable<boolean>{
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 18)     return this.dialog.open(ConfirmComponent, {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 19)         data,
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 20)         width: '400px',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 21)         disableClose: true}).afterClosed();
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 22)   }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 23)
+c18c7924 (Sarah Huang 2022-11-08 02:00:30 -0500 24)   messageDialog(data: MessageDialogData){
+c18c7924 (Sarah Huang 2022-11-08 02:00:30 -0500 25)      this.dialog.open(MessageComponent, {
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 26)       data,
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 27)       width: '400px',
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 28)       disableClose: true}).afterClosed();
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 29)   }
+4ba1b0d3 (Sarah Huang 2022-11-08 00:55:44 -0500 30) }

@@ -1,0 +1,16 @@
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  1) /* Function generates a 6 character string of capital letters
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  2)  * (minus vowels) and returns it
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  3)  */
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  4) fun genCode() : String {
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  5)   val charPool = "BCDFGHJKLMNPQRSTVWXZ"
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  6)   var randomString = (1..6)
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  7)   .map {kotlin.random.Random.nextInt(0, charPool.length) }
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  8)   .map(charPool::get)
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400  9)   .joinToString("");
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 10)       
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 11)   return randomString
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 12) }
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 13) 
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 14) fun main() {
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 15)   println(genCode())
+83f3ee1a (Ryland-Seagraves 2022-10-13 12:59:46 -0400 16) }

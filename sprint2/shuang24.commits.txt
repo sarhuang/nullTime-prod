@@ -1,0 +1,311 @@
+- null-time-web/src/app/game-card-list/game-card-list.component.scss
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  1) #cardList{
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  2)     color:rgb(255, 255, 255);
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  3)     font-family: 'Raleway', sans-serif;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  4)     font-size: 50px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  5)     text-align: center;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  6) }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  7)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  8) #addCard{
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  9)     background-color: #6998e8;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 10)     border: none;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 11)     color: rgb(255, 255, 255);
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 12)     padding: 15px 100px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 13)     text-align: center;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 14)     font-size: 16px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 15)     margin: 4px 2px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 16)     cursor: pointer;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 17)     display: block;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 18)     margin-left: auto;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 19)     margin-right: auto;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 20)     font-size: 25px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 21)     font-family: 'Raleway', sans-serif;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 22) }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 23)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 24) #startGame{
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 25)     background-color: #53bc7f;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 26)     border: none;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 27)     color: rgb(255, 255, 255);
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 28)     padding: 15px 100px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 29)     text-align: center;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 30)     font-size: 16px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 31)     margin: 4px 2px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 32)     cursor: pointer;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 33)     display: block;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 34)     margin-left: auto;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 35)     margin-right: auto;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 36)     font-size: 25px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 37)     font-family: 'Raleway', sans-serif;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 38) }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 39)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 40) #back{
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 41)     background-color: #2d63c7;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 42)     border: none;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 43)     color: white;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 44)     padding: 15px 30px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 45)     text-decoration: none;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 46)     display: inline-block;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 47)     font-size: 16px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 48)     margin: 4px 2px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 49)     cursor: pointer;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 50)     display: block;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 51)     font-size: 15px;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 52)     font-family: 'Raleway', sans-serif;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 53) }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 54)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 59) }
+
+
+
+- null-time-web/src/app/game-join/game-join.component.html
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  1) <h1 id = "title">TIME'S UP</h1>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400  2) <div *ngIf="!showAddWords">
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  3) <form>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  4)     <br>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  5)     <div class = "form-field">
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  6)         <label id = "label">Game Pin</label>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  8)     </div>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  9)     <br>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 10)     <br>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 11)     <br>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 12)     <button id = "joinGame" (click) = "joinGame()">Join Game</button>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 13)     <br>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 14)     <button id = "hostGame" (click) = "hostGame()">Host Game</button>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 15) </form>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 16) </div>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 17)
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 18)
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 19) <div *ngIf="showAddWords">
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 20)     <app-game-card-list [canAddCards]="true" [allCards]="getCardList()" [canEditCards]="true" [showAsList]="true"></app-game-card-list>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 21) </div>
+
+
+
+- null-time-web/src/app/game-join/game-join.component.scss
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 13)
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 34)
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 35) #joinGame{
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 36)     background-color: #3dc548;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 38)     color: rgb(255, 255, 255);
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 39)     padding: 15px 100px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 40)     text-align: center;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 41)     font-size: 16px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 42)     margin: 4px 2px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 44)     display: block;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 45)     margin-left: auto;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 47)     font-size: 25px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 48)     font-family: 'Raleway', sans-serif;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 49) }
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 50)
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 51) #hostGame{
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 52)     background-color: #6998e8;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 53)     border: none;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 54)     color: rgb(255, 255, 255);
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 55)     padding: 15px 100px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 56)     text-align: center;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 57)     font-size: 16px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 58)     margin: 4px 2px;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 59)     cursor: pointer;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 60)     display: block;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 62)     margin-right: auto;
+c0c02b05 null-time-web/src/app/game-join/game-join.component.scss (Sarah Huang 2022-10-22 23:43:47 -0400 63)     font-size: 25px;
+
+
+
+- null-time-web/src/app/game-join/game-join.component.ts
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  1) import { Component, OnInit } from '@angular/core';
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  2) import { Router } from '@angular/router';
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  3) import { GameLobbyComponent } from '../game-lobby/game-lobby.component';
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400  4) import { GetRandomCard } from 'src/gameHelper/utils';
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  5) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  6) @Component({
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  7)   selector: 'app-game-join',
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  8)   templateUrl: './game-join.component.html',
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400  9)   styleUrls: ['./game-join.component.scss']
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 10) })
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 11) export class GameJoinComponent implements OnInit {
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 12) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 13)   static isHost = false;
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 14)   showAddWords: boolean = false;
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 15)   code = document.getElementById('pin') as HTMLInputElement | null;
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 16) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 17)   constructor(private router: Router) { }
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 18) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 19)   ngOnInit(): void {
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 20)     document.body.style.backgroundImage = "url('assets/images/red_swirl_bg.jpg')";
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 21)   }
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 22) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 23)   joinGame = () => {
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 24)     const input = this.code;
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 25)     if(Number(input) == GameLobbyComponent.gameCode){
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 26)       this.showAddWords = true;
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 27)       if (GameLobbyComponent.gameCardList.length === 0) {
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 28)         GameLobbyComponent.gameCardList.push(GetRandomCard());
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 29)       }
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 30)       //this.router.navigateByUrl('game-card-list');
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 31)     }
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 32)   }
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 33) 
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 34)   getCardList = () => {
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 35)     return GameLobbyComponent.gameCardList;
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 36)   }
+4314a6cc (Sarah Huang 2022-10-25 20:49:41 -0400 37) 
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 38)   hostGame = () => {
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 39)     GameJoinComponent.isHost = true;
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 40)     GameLobbyComponent.wordCount = 0;
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 41)     this.router.navigateByUrl('game-lobby');
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 42)   }
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 43)
+c0c02b05 (Sarah Huang 2022-10-22 23:43:47 -0400 44) }
+
+
+
+- null-time-web/src/app/game-lobby/game-lobby.component.html
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  1) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  2) <h1 id = "title">TIME'S UP</h1> <!--This might be a logo later-->
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  3) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  8) 
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 10) 
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 11) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 12) Word Counter:
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 13) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 14) {{getWordCount}}
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 15) </textarea>
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 16) 
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 20)     <!--<button id = "enterWords" (click) = "enterWords()">Enter Words</button>-->
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 32)     <br>
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 34)     <br>
+
+
+
+- null-time-web/src/app/game-lobby/game-lobby.component.scss
+df5fa5ed null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 15:08:24 -0400  2)     color:rgb(255, 255, 255);
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  4)     font-size: 50px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  5)     text-align: center;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  6) }
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  7) 
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  8) #subtitle{
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400  9)     color:rgb(255, 255, 255);
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 10)     font-family: 'Raleway', sans-serif;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 11)     font-size: 30px;
+df5fa5ed null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 15:08:24 -0400 17)     color: rgb(255, 255, 255);
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 31) #enterWords{
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 32)     background-color: #f6df4e;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 33)     border: none;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 34)     color: rgb(0, 0, 0);
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 35)     padding: 15px 100px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 36)     text-align: center;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 37)     font-size: 16px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 38)     margin: 4px 2px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 39)     cursor: pointer;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 40)     display: block;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 47) #createNewLobby{
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 48)     background-color: #6998e8;       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 50)     color: rgb(255, 255, 255);       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 51)     padding: 15px 100px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 52)     text-align: center;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 56)     display: block;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 57)     margin-left: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 58)     margin-right: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 59)     font-size: 25px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 60)     font-family: 'Raleway', sans-serif;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 61) }
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 62)
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 63) #start{
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 64)     background-color: #39ad39;       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 65)     border: none;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 66)     color: rgb(255, 255, 255);       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 67)     padding: 15px 100px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 68)     text-align: center;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 69)     font-size: 16px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 70)     margin: 4px 2px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 71)     cursor: pointer;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 72)     display: block;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 73)     margin-left: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 74)     margin-right: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 75)     font-size: 25px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 77) }
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 78)
+3bc2d681 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 20:03:05 -0400 79) #createLocalGame{
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 80)     background-color: #c669e8;       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 81)     border: none;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 82)     color: rgb(255, 255, 255);       
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 83)     padding: 15px 100px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 84)     text-align: center;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 85)     font-size: 16px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 86)     margin: 4px 2px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 87)     cursor: pointer;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 88)     display: block;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 89)     margin-left: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 90)     margin-right: auto;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 91)     font-size: 25px;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 92)     font-family: 'Raleway', sans-serif;
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 93) }
+8ce27727 null-time-web/src/app/game-lobby/game-lobby.component.scss (Sarah Huang 2022-10-22 17:35:31 -0400 94)
+
+
+
+- null-time-web/src/app/game-lobby/game-lobby.component.ts
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  1) import { Component, OnInit } from '@angular/core';
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  2) import { Router } from '@angular/router';
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400  5) import { GameCardListComponent } from '../game-card-list/game-card-list.component';
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  6) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  7) @Component({
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  8)   selector: 'app-game-lobby',
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400  9)   templateUrl: './game-lobby.component.html',
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 10)   styleUrls: ['./game-lobby.component.scss']
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 11) })
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 12) export class GameLobbyComponent implements OnInit {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 13) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 14)   static gameCode: number = 420;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 15)   static wordCount: number = 0;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 18) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 21) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 22)   ngOnInit(): void {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 23)     document.body.style.backgroundImage = "url('assets/images/red_swirl_bg.jpg')";
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 24)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 25) 
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 26)   createNewLobby = () => {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 27)     GameLobbyComponent.gameCode = Math.floor(Math.random() * 90000) + 10000;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 28)     GameLobbyComponent.wordCount = 0;
+4314a6cc (Sarah Huang    2022-10-25 20:49:41 -0400 29)     GameLobbyComponent.gameCardList.splice(0);
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 30)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 31)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 36)   enterWords = () => {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 46)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 47)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 48)   startGame = () => {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 49)     //Start the game
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 50)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 51)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 52)   createLocalGame = () => {
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 53)     GameLobbyComponent.wordCount = 0;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 56)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 57)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 58)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 59)   get getWordCount(){
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 61)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 62)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 63)  static set setWordCount(value: number){
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 64)     GameLobbyComponent.wordCount += value;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 65)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 66)
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 67)   get getGameCode(){
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 68)     return GameLobbyComponent.gameCode;
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 69)   }
+86299926 (Sarah Huang    2022-10-25 16:20:39 -0400 70) }
+
+
+
+- null-time-web/src/app/app-routing.module.ts
+8ce27727 (Sarah Huang    2022-10-22 17:35:31 -0400  3) import { GameLobbyComponent } from './game-lobby/game-lobby.component';
+965a920e (Sarah Huang    2022-10-22 19:14:40 -0400  4) import { GameCardListComponent } from './game-card-list/game-card-list.component';
+c0c02b05 (Sarah Huang    2022-10-22 23:43:47 -0400  5) import { GameJoinComponent } from './game-join/game-join.component';
+8ce27727 (Sarah Huang    2022-10-22 17:35:31 -0400  7) const routes: Routes = [
+c0c02b05 (Sarah Huang    2022-10-22 23:43:47 -0400  8)  {path: '', component: GameJoinComponent},
+c0c02b05 (Sarah Huang    2022-10-22 23:43:47 -0400  9)  {path: 'game-lobby', component: GameLobbyComponent},
+965a920e (Sarah Huang    2022-10-22 19:14:40 -0400 10)  {path: 'game-card-list', component: GameCardListComponent}
+c0c02b05 (Sarah Huang    2022-10-22 23:43:47 -0400 11)
+8ce27727 (Sarah Huang    2022-10-22 17:35:31 -0400 12) ];
+
+

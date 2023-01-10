@@ -1,0 +1,218 @@
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  2) #bigButton{
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  3)   background-color: #f80085;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  4)   border: none;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  5)   color: #ffffff;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  6)   padding: 15px 100px;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  7)   text-align: center;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  8)   font-size: 16px;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  9)   margin: 4px 2px;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 10)   cursor: pointer;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 11)   display: block;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 12)   margin-left: auto;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 13)   margin-right: auto;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 14)   font-size: 25px;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 15)   font-family: 'Raleway', sans-serif;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 16) }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  1) <h1 id = title>TIME'S UP</h1> <!--This might be a logo later-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  2)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  3) <!--lobby page-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4) <div *ngIf="!showAddingWords && !showPlayingGame">
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  5)   <button id = "bigButton" (click) = "addWords()"
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  6)   style=background-color:#abcdef>Enter Words</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  7) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  9) <!--add words page-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 10) <div *ngIf="showAddingWords">
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 11)   <button id = "bigButton" (click) = "startGame()">Start Game</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)   <br>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13)   <button (click) = devBack()>dev back button</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 14) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 15)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 16) <!--gameplay is starting-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 17) <div *ngIf="showPlayingGame">
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 18)   <app-round-page></app-round-page>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 19)   <button (click) = devBack()>dev back button</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 20) </div>
+286b689a (emoran11 2022-10-30 22:32:00 -0400  1) import { Component, OnInit } from '@angular/core';
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  2) import { Router } from '@angular/router';
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  3) import { IGameCard} from 'src/gameHelper/interfaces'
+286b689a (emoran11 2022-10-30 22:32:00 -0400  4)
+286b689a (emoran11 2022-10-30 22:32:00 -0400  5) @Component({
+286b689a (emoran11 2022-10-30 22:32:00 -0400  6)   selector: 'app-lobby',
+286b689a (emoran11 2022-10-30 22:32:00 -0400  7)   templateUrl: './lobby.component.html',
+286b689a (emoran11 2022-10-30 22:32:00 -0400  8)   styleUrls: ['./lobby.component.scss']
+286b689a (emoran11 2022-10-30 22:32:00 -0400  9) })
+286b689a (emoran11 2022-10-30 22:32:00 -0400 10) export class LobbyComponent implements OnInit {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 11)   showAddingWords: boolean = false; //tells when to show the add words page
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)   showPlayingGame: boolean = false; //tells when to show the whole gameplay stuff
+286b689a (emoran11 2022-10-30 22:32:00 -0400 13)
+286b689a (emoran11 2022-10-30 22:32:00 -0400 14)   constructor() { }
+286b689a (emoran11 2022-10-30 22:32:00 -0400 15)
+286b689a (emoran11 2022-10-30 22:32:00 -0400 16)   ngOnInit(): void {
+286b689a (emoran11 2022-10-30 22:32:00 -0400 17)   }
+286b689a (emoran11 2022-10-30 22:32:00 -0400 18)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 19)   addWords = () => {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 20)     this.showAddingWords = true;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 21)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 22)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 23)   startGame = () => {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 24)     this.showAddingWords = false;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 25)     this.showPlayingGame = true;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 26)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 27)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 28)   devBack = () => {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 29)     this.showAddingWords = false;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 30)     this.showPlayingGame = false;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 31)   }
+286b689a (emoran11 2022-10-30 22:32:00 -0400 32) }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  1) <!--main round page-->
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  2) <div *ngIf="!showPlayingRound && !showModerating">
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  3)   <!--this needs logic to display round number-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4)   <h1>Round X</h1>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  5)   <p>instructions</p>
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  6)   <button id = "bigButton" (click) = startRound()>Start Round</button>
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  7)   <button (click) = "moderate()">dev go to moderation</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  9)
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 10) <!--when playing the round-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 11) <div *ngIf="showPlayingRound">
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)   <app-turn-start-page></app-turn-start-page>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13)   <button (click) = devBack()>dev back button</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 14) </div>
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 15)
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 16) <!--show moderation page at end of round-->
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 17) <div *ngIf="showModerating">
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 18)   <app-moderation-page></app-moderation-page>
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 19) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  1) import { Component, OnInit } from '@angular/core';
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  2)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  3) @Component({
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4)   selector: 'app-round-page',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  5)   templateUrl: './round-page.component.html',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  6)   styleUrls: ['./round-page.component.scss']
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  7) })
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8) export class RoundPageComponent implements OnInit {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  9)   showPlayingRound: boolean = false
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 10)   showModerating: boolean = false
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 11)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)   constructor() { }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 14)   ngOnInit(): void {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 15)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 16)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 17)   startRound = () => {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 18)     this.showPlayingRound = true
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 19)   }
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 20)
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 21)   moderate = () => {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 22)     this.showModerating = true
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 23)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 24)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 25)   devBack = () => {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 26)     this.showPlayingRound = false
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 27)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 28)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 29) }
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 1) <app-game-card-list [showAsList] = false [allCards] = getCardList()></app-game-card-list>
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  1) import { Component, OnInit, Input } from '@angular/core';
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  2) import { IGameCard } from 'src/gameHelper/interfaces'
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  3) import { GameLobbyComponent } from 'src/app/game-lobby/game-lobby.component'
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  5) @Component({
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  6)   selector: 'app-turn-play-page',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  7)   templateUrl: './turn-play-page.component.html',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8)   styleUrls: ['./turn-play-page.component.scss']
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  9) })
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 10) export class TurnPlayPageComponent implements OnInit {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 11)   @Input() cardList: IGameCard[] = GameLobbyComponent.gameCardList;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13)   constructor() { }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 14)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 15)   ngOnInit(): void {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 16)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 17)
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 18)   getCardList = () => {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 19)     return this.cardList
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 20)   }
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 21)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 22) }
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  1) <!--page that says to start your turn-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  2) <div *ngIf="!showPlayingTurn">
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  3)   <button id = "bigButton" (click) = startTurn()>Start Turn</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  5)
+d4892fba (emoran11 2022-11-01 00:03:01 -0400  6) <!--displays actually playing the turn-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  7) <!--will need logic for ending turns
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8)   this means a timer
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  9)   and knowing when the card list is empty-->
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 10) <div *ngIf="showPlayingTurn">
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 11)   <app-turn-play-page></app-turn-play-page>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)   <button (click) = devBack()>dev back button</button>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13) </div>
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  1) import { Component, OnInit } from '@angular/core';
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  2)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  3) @Component({
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  4)   selector: 'app-turn-start-page',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  5)   templateUrl: './turn-start-page.component.html',
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  6)   styleUrls: ['./turn-start-page.component.scss']
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  7) })
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  8) export class TurnStartPageComponent implements OnInit {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400  9)   showPlayingTurn: boolean = false;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 10)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 11)   constructor() { }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 12)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 13)   ngOnInit(): void {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 14)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 15)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 16)   startTurn = () => {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 17)     this.showPlayingTurn = true;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 18)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 19)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 20)   devBack = () => {
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 21)     this.showPlayingTurn = false;
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 22)   }
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 23)
+be6e4e4c (emoran11 2022-10-31 01:05:53 -0400 24) }
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 23) 	getAllCards = () => {
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 24) 		return this.allCards;
+d4892fba (emoran11 2022-11-01 00:03:01 -0400 25) 	}
+d4892fba (emoran11          2022-11-01 00:03:01 -0400  3) <!--lobby page-->
+d4892fba (emoran11          2022-11-01 00:03:01 -0400  4) <div *ngIf="!showAddingWords && !showPlayingGame">
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 33)
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 34) <div *ngIf="showAddingWords">
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 35)   <textarea style = "width: 300px; height: 200px;" readonly id = 'players'>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 36)
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 37)
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 38)   Word Counter:
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 39)
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 40)   {{getWordCount}}
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 42)   <br>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 43)   <br>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 46)   <br>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 47)   <app-game-card-list [canAddCards]="true" [allCards]="getCardList()" [canEditCards]="true" [showAsList]="true"></app-game-card-list>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 48)   <button (click) = devBack()>dev back button</button>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 49) </div>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 50)
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 51) <!--gameplay is starting-->
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 52) <div *ngIf="showPlayingGame">
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 53)   <app-round-page></app-round-page>
+d4892fba (emoran11          2022-11-01 00:03:01 -0400 54)   <button (click) = devBack()>dev back button</button>
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 13)   showAddingWords: boolean = false
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 14)   showPlayingGame: boolean = false
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 26)
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 27)   addWords = () => {
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 28)     this.showAddingWords = true;
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 29)   }
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 30)
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 31)   startGame = () => {
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 32)     this.showAddingWords = false;
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 33)     this.showPlayingGame = true;
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 34)   }
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 35)
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 36)   devBack = () => {
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 37)     this.showAddingWords = false;
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 38)     this.showPlayingGame = false;
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 39)   }
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 40) 
+d4892fba (emoran11       2022-11-01 00:03:01 -0400 65)     this.addWords();
+be6e4e4c (emoran11       2022-10-31 01:05:53 -0400 69)   get getWordCount(){

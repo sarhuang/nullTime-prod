@@ -1,0 +1,81 @@
+299ab14c (emoran11 2022-11-10 07:38:09 -0500  8)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500  9)     <div *ngIf="isModerating">
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 10) <!--
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 11)       <button (click)="getService().setTeamCallback()">Team 1</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 12)       <button (click)="getService().setTeamCallback()">Team 2</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 13)       <button (click)="getService().setTeamCallback()">None</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 14) -->
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 15)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 16)         <button (click)="giveToTeam(1, this.card.value)">Team 1</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 17)         <button (click)="giveToTeam(2, this.card.value)">Team 2</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 18)         <button (click)="giveToTeam(0, this.card.value)">None</button>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 19)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 20)     </div>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 25) </mat-card>
+299ab14c (emoran11 2022-11-10 07:38:09 -0500  2) import { GameplayService } from 'src/app/services/gameplay-service';
+299ab14c (emoran11 2022-11-10 07:38:09 -0500  8) 	styleUrls: ['./game-card.component.scss'],
+299ab14c (emoran11 2022-11-10 07:38:09 -0500  9)   providers: [ GameplayService ]
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 16) 	@Input() isModerating: boolean = false;
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 18) 	@Output() bearButton = new EventEmitter();
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 22) 	constructor(private service: GameplayService) {
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 23) 		this.card = null;
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 24) 	}
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 25)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 26) 	getService() {
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 27) 		return this.service;
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 28) 	}
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 29)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 30) 	giveToTeam = (team: number, value: string) => {
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 31) 		this.service.giveToTeam(team, value);
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 32) 	}
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 33)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 34) 	setTeamCallback = () => {
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 35) 		return this.service.setTeamCallback;
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 36) 	}
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 37)
+299ab14c (emoran11 2022-11-10 07:38:09 -0500 2) <app-game-card-list [isModerating] = "true" [allCards] = "getCardList()"></app-game-card-list>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 18)   <!--Start next round button-->
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 19)   <div *ngIf="!(getService().getCurrentRound() == getService().getMaxRounds())">
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 20)     <button id = "bigButton" (click)="startNextRound()">Start Next Round</button>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 21)   </div>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 22)   <!--show final scores button-->
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 23)   <div *ngIf="getService().getCurrentRound() == getService().getMaxRounds()">
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 24)     <button id = "bigButton" (click)="startNextRound()">Show Final Scores</button>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 25)   </div>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 32) </div>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 3) <app-game-card-list [showAsList] = false [allCards] = getCardList()
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 4) (cardClickedCallback)="getService().cardGuessedCallback($event)"
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 5) (lastCardCallback)="getService().outOfCardsCallback()">
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 6) </app-game-card-list>
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  37)     getMaxRounds() {
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  38)       return this.maxRounds+1;
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  39)     }
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  40)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  56)             console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  63)               console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  67)       console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  77)         //Shuffle the cards, switch teams, and take us back to the instructions
+299ab14c (emoran11       2022-11-10 07:38:09 -0500  86)               console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 125)             this.roundHistory[this.currentRound].team1ScoredCards.push(card.value);
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 127)             this.roundHistory[this.currentRound].team2ScoredCards.push(card.value);
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 137)       console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 168)     setTeamCallback() {
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 169)       console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 170)     }
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 171)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 172)     giveToTeam(team: number, value: string) {
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 173)       console.log("give to team ")
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 174)       console.log(team)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 175)       console.log(value)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 176)       //this.roundHistory[this.currentRound].team1ScoredCards//.find(element => {element === value})
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 177)       //console.log(this.roundHistory[this.currentRound].team1ScoredCards.find(element => element === value));
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 178)       console.log(this.roundHistory.length)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 179)       console.log(this.currentRound)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 180)     }
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 181)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 182)
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 187) }
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 16)     'Whiteboard',
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 17)     'Alex',
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 18)     'Kubert'
+299ab14c (emoran11       2022-11-10 07:38:09 -0500 67) }

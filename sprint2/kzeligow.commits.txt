@@ -1,0 +1,101 @@
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  1) package com.myorg;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  2) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  3) import software.amazon.awscdk.App;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  4) import software.amazon.awscdk.Environment;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  5) import software.amazon.awscdk.StackProps;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  6) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  7) import java.util.Arrays;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  8) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  9) public class CdkApp {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 10)     public static void main(final String[] args) {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 11)         App app = new App();
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 12) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 13)         new CdkStack(app, "CdkStack", StackProps.builder().build());
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 14) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 15)         app.synth();
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 16)     }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 17) }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 18) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  1) package com.myorg;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  2) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  3) import software.amazon.awscdk.services.apigateway.LambdaRestApi;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  4) import software.amazon.awscdk.services.lambda.Architecture;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  5) import software.amazon.awscdk.services.lambda.Code;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  6) import software.amazon.awscdk.services.lambda.Function;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  7) import software.amazon.awscdk.services.lambda.Runtime;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  8) import software.constructs.Construct;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  9) import software.amazon.awscdk.Stack;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 10) import software.amazon.awscdk.StackProps;
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 11) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 12) public class CdkStack extends Stack {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 13)     public CdkStack(final Construct scope, final String id) {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 14)         this(scope, id, null);
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 15)     }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 16) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 17)     public CdkStack(final Construct scope, final String id, final StackProps props) {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 18)         super(scope, id, props);
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 19) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 20)         Function handler = Function.Builder.create(this, "GreeterHandler")
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 21)                 .runtime(Runtime.JAVA_11)
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 22)                 .architecture(Architecture.ARM_64)
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 23)                 .code(Code.fromAsset("../null-time-api/build/function.zip"))
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 24)                 .handler("io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest")
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 25)                 .memorySize(512)
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 26)                 .build();
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 27) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 28)         LambdaRestApi.Builder.create(this, "gateway").handler(handler).build();
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 29) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 30)     }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 31) }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  1) package nullTime
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  2) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  3) import javax.enterprise.context.ApplicationScoped
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  4) import javax.inject.Inject
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  5) import javax.ws.rs.GET
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  6) import javax.ws.rs.Path
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  7) import javax.ws.rs.Produces
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  8) import javax.ws.rs.core.MediaType
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  9) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 10) @ApplicationScoped
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 11) @Path("/")
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 12) class GreetingResource {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 13)     val greeting: String = "Hello world"
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 14) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 15)     @GET
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 16)     @Produces(MediaType.TEXT_PLAIN)
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 17)     fun hello() = greeting
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 18) }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  1) package nullTime
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  2) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  3) import org.eclipse.microprofile.config.inject.ConfigProperty
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  4) import javax.enterprise.context.ApplicationScoped
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  5) import javax.inject.Inject
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  6) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  7) @ApplicationScoped
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  8) class Greeter {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  9) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 10)     @Inject
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 11)     @ConfigProperty(name="message", defaultValue = "Hello from the Greeter")
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 12)     val message: String? = null
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 13) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 14)     fun greet() = message!!
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 15) }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  1) package nullTime
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  2) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  3) import io.quarkus.test.junit.QuarkusTest
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  4) import io.restassured.RestAssured.given
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  5) import org.hamcrest.CoreMatchers.`is`
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  6) import org.junit.jupiter.api.Test
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  7) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  8) @QuarkusTest
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400  9) class GreetingResourceTest {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 10) 
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 11)     @Test
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 12)     fun testHelloEndpoint() {
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 13)         given()
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 14)           .`when`().get("/")
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 15)           .then()
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 16)              .statusCode(200)
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 17)              .body(`is`("Hello world"))
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 18)     }
+b5b2b762 (huncfut 2022-10-27 20:28:31 -0400 19) }

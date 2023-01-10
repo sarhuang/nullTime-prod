@@ -1,0 +1,329 @@
+game-card-list.component.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   1) import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  21) 	@Output() cardClickedCallback = new EventEmitter<IGameCard>();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  22) 	@Output() lastCardCallback = new EventEmitter();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  94) 		console.log(this.allCards.length);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  96) 		if (this.cardClickedCallback != undefined) this.cardClickedCallback.emit(card);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  97) 		if (this.allCards.length == 0 && this.lastCardCallback != undefined) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  98) 			console.log('Out of cards');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  99) 			this.lastCardCallback.emit();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 100) 		}
+
+game-lobby.component.html
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 53)   <app-round-page [allCardsRef]="getCardList()"></app-round-page>
+
+round-page.component.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  1) import { Component, OnInit, Input } from '@angular/core';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  2) import { GameplayService } from 'src/app/services/gameplay-service';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  3) import { IGameCard, RoundState } from 'src/gameHelper/interfaces';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  8)   styleUrls: ['./round-page.component.scss'],
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  9)   providers: [ GameplayService ]
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 12)   @Input() allCardsRef : IGameCard[] = [];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 13)   currentRoundPhase: RoundState = RoundState.Intro;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 15)   constructor(private service: GameplayService) { }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 18)     this.service.setAllCardsRef(this.allCardsRef);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 19)     this.service.currentRoundPhase.subscribe(val => this.currentRoundPhase = val);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20)     this.service.gameInit();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 23)   getService() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 24)     return this.service;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 25)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 26) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 27)   startTurnPhase = () => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 28)     //this.service.startTurn();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 29)     this.service.startTurnPhase();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 30)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 31) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 32)   startNextRound = () => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 33)     this.service.startRound();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 37)     //this.showModerating = true
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 41)     //this.showPlayingRound = false
+
+round-page.component.html
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  2) <div *ngIf="currentRoundPhase == 0">
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  4)   <h1>Round {{getService().getCurrentRound()}}</h1>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  6)   <button id = "bigButton" (click) = startTurnPhase()>Start Round</button>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 11) <div *ngIf="currentRoundPhase == 1">
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 17) <div *ngIf="currentRoundPhase == 2">
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 18)   <h1>Moderation</h1>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20)   <button (click)="startNextRound()">Start Next Round</button>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 22) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 23) <div *ngIf="currentRoundPhase == 3">
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 24)   <h1>Game Over!</h1>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 25)   <h3>Team 1 Score: {{getService().team1Score}}</h3>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 26)   <h3>Team 2 Score: {{getService().team2Score}}</h3>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 27) </div>
+
+turn-play-page.component.html
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 1) <h1>Remaining Time: {{getTimeRemaining()}}</h1>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 2) <h2>Remaining Cards: {{getCardList().length}}</h2>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 3) <app-game-card-list [showAsList] = false [allCards] = getCardList() (cardClickedCallback)="getService().cardGuessedCallback($event)" (lastCardCallback)="getService().outOfCardsCallback()"></app-game-card-list>
+
+turn-play-page.component.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  4) import { GameplayService } from 'src/app/services/gameplay-service';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 14)   constructor(private service: GameplayService) { }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 19)   getService() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20)     return this.service;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 21)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 22) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 24)     return this.service.getCardsAtPlay();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 25)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 26) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 27)   getTimeRemaining = () => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 28)     return this.service.getTimeRemaining();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 29)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 30) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 31)   cardGuessedCallback = () => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 32)     return this.service.cardGuessedCallback;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 33)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 34) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 35)   outOfCardsCallback = () => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 36)     return this.service.outOfCardsCallback;
+
+turn-start-page.component.html
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  2) <div *ngIf="!isPlayingTurn">
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  3)   <h1>Team {{getCurrentTeam()}}'s Turn!</h1>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  4)   <h2>Remaining Cards: {{getRemainingCards()}}</h2>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  5)   <button id = "bigButton" (click)="startTurn()">Start Turn</button>
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 12) <div *ngIf="isPlayingTurn">
+
+turn-start-page.component.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  1) import { ApplicationRef, Component, OnInit } from '@angular/core';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  2) import { GameplayService } from 'src/app/services/gameplay-service';
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 11)   constructor(private service: GameplayService) { }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 12)   isPlayingTurn: boolean = false;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 15)     this.service.playTurn.subscribe(val => this.isPlayingTurn = val);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 16)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 17) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 18)   getService() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 19)     return this.service;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 21) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 22)   getRemainingCards() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 23)     return this.service.getRemainingCards();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 24)   }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 25) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 26)   getCurrentTeam() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 27)     return this.service.getCurrentTeam();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 31)     this.service.startTurn();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 35)     //this.showPlayingTurn = false;
+
+gameplay-service.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   1) import * as moment from "moment";
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   2) import { BehaviorSubject, Observable } from "rxjs";
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   3) import { IGameCard, IGameRound, RoundState } from "src/gameHelper/interfaces";
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   4) import { RandomizeArray, ScoreTeam, StartTimer } from "src/gameHelper/utils";
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   5) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   6) export class GameplayService {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   7)     private allCardsRef : IGameCard[] = []; //This holds a static reference to all cards, it should not be changed
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   8)     private cardsAtPlay: IGameCard[] = []; //This holds only the current cards at play
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500   9)     private currentRound: number = 0;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  10)     private turnMaxTime: number = 10; //How long a turn should last in seconds
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  11)     private maxRounds: number = 2; //This sets the max rounds this game should run for (0 index)
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  12)     private currentTeam: number = 1; //Either 1 or 2
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  13)     private turnTime = 0;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  14)     private roundHistory: IGameRound[] = [];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  15)     //Note: To be efficient, these scores don't get calculated until the game is over and are only used for display
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  16)     team1Score = 0;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  17)     team2Score = 0;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  18) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  19)     //These below are observables, they are efficent ways of making sure data updates at the correct time on other pages
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  20)     private _playTurn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  21)     playTurn: Observable<boolean> = this._playTurn.asObservable();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  22)     private _currentRoundPhase: BehaviorSubject<RoundState> = new BehaviorSubject<RoundState>(RoundState.Intro);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  23)     currentRoundPhase: Observable<RoundState> = this._currentRoundPhase.asObservable();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  24) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  25)     constructor () {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  26)         this.roundHistory = [];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  27)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  28) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  29)     getCardsAtPlay() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  30)         return this.cardsAtPlay;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  31)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  32) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  33)     getCurrentRound() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  34)         return this.currentRound+1;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  35)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  36) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  37)     getCurrentTeam() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  38)         return this.currentTeam;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  39)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  40) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  41)     getRemainingCards() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  42)         return this.cardsAtPlay.length;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  43)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  44) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  45)     setAllCardsRef(allCards: IGameCard[]) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  46)         //This is only set once at the beginning of the game
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  47)         this.allCardsRef = allCards;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  48)         this.cardsAtPlay = allCards;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  49)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  50) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  51)     gameInit() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  52)         this.cardsAtPlay = RandomizeArray(this.allCardsRef);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  53)         this.roundHistory.push({
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  54)             cardsUsed: this.cardsAtPlay.map(x => x.value),
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  55)             team1ScoredCards: [],
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  56)             team2ScoredCards: []
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  57)         })
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  58)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  59) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  60)     startRound() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  61)         //Call this to start a new round
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  62)         this.currentRound++;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  63) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  64)         if (this.currentRound > this.maxRounds) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  65)             this.calculateScores();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  66)             this._currentRoundPhase.next(RoundState.End);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  67)             return;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  68)         }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  69) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  70)         //Randomize the cards, switch teams, and take us back to the instructions
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  71)         this.cardsAtPlay = RandomizeArray(this.allCardsRef);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  72)         this._currentRoundPhase.next(RoundState.Intro);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  73)         this.switchTeams();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  74)         this.roundHistory.push({
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  75)             cardsUsed: this.cardsAtPlay.map(x => x.value),
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  76)             team1ScoredCards: [],
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  77)             team2ScoredCards: []
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  78)         })
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  79)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  80) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  81)     startTurnPhase() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  82)         //This starts the actual gameplay part of the game where teams guess cards
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  83)         this._playTurn.next(false);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  84)         this._currentRoundPhase.next(RoundState.Turn);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  85)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  86) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  87)     getRoundPhase() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  88)         return this.currentRoundPhase;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  89)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  90) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  91)     endTurnPhase() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  92)         //This ends the gameplay part of the game to then take us to the moderation screen
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  93)         console.log('Ending Turn phase');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  94)         this._currentRoundPhase.next(RoundState.Moderation);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  95)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  96) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  97)     setTimeRemaining(time: number) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  98)         this.turnTime = time;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  99)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 100) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 101)     getTimeRemaining() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 102)         return this.turnTime;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 103)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 104) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 105)     isPlayingTurn() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 106)         return this.playTurn;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 107)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 108) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 109)     switchTeams() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 110)         if (this.currentTeam == 1) this.currentTeam = 2;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 111)         else this.currentTeam = 1;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 112)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 113) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 114)     cardGuessedCallback(card: IGameCard) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 115)         console.log('Card Guessed');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 116)         if (this.currentTeam == 1) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 117)             this.roundHistory[this.currentRound].team1ScoredCards.push(card.value); 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 118)         } else {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 119)             this.roundHistory[this.currentRound].team2ScoredCards.push(card.value); 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 120)         }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 121)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 122) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 123)     outOfCardsCallback() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 124)         console.log('Out of Cards Callback');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 125)         this.endTurnPhase();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 126)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 127) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 128)     startTurn() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 129)         //This starts a new turn within the gameplay part of the round
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 130)         let timeDelta = this.turnMaxTime;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 131)         this.turnMaxTime = this.turnMaxTime;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 132)         this.setTimeRemaining(this.turnMaxTime);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 133)         this._playTurn.next(true);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 134)         console.log('Turn started');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 135)         let inter = setInterval(function(service) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 136)             timeDelta--;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 137)             service.setTimeRemaining(timeDelta);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 138)             if (service.getRemainingCards() == 0) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 139)                 //Quietly exit if we have already guessed all the cards
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 140)                 console.log('Remaining cards is 0')
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 141)                 clearInterval(inter);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 142)             } else if (timeDelta <= 0) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 143)                 clearInterval(inter);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 144)                 service.endTurn();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 145)             }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 146)         }, 1000, this);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 147)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 148) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 149)     endTurn() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 150)         //If there are no more cards, start the next round, otherwise just switch teams and do another turn
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 151)         console.log('Ending Turn');
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 152)         if (this.cardsAtPlay.length > 0) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 153)             //TODO: Show modal that says "End of the round!"
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 154)             this.switchTeams();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 155)             this._playTurn.next(false);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 156)         }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 157)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 158) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 159)     calculateScores() {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 160)         this.team1Score = ScoreTeam(this.roundHistory, 1);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 161)         this.team2Score = ScoreTeam(this.roundHistory, 2);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 162)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 163) }
+
+interfaces.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  7) export enum RoundState {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  8)     Intro,
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  9)     Turn,
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 10)     Moderation,
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 11)     End
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 12) }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 13) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 18) }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 19) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20) export interface IGameRound {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 21)     cardsUsed: string[],
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 22)     team1ScoredCards: string[],
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 23)     team2ScoredCards: string[]
+
+utils.ts
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500  1) import { IGameCard, IGameRound } from "./interfaces";
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 20)     return testCardValues[Math.floor(Math.random() * testCardValues.length)];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 26)         id: Math.floor((Math.random() * 99999)).toString(),
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 29) }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 30) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 31) export const RandomizeArray = (arrayCopy: any[]) => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 32)     //Stolen from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 33)     const array = [...arrayCopy];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 34)     let currentIndex = array.length, randomIndex;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 35) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 36)     // While there remain elements to shuffle.
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 37)     while (currentIndex != 0) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 38) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 39)         // Pick a remaining element.
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 40)         randomIndex = Math.floor(Math.random() * currentIndex);
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 41)         currentIndex--;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 42) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 43)         // And swap it with the current element.
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 44)         [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 45)     }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 46) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 47)     return array;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 48) }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 49) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 50) export const StartTimer = async (time: number, callback: () => void) => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 51)     await new Promise(resolve => setTimeout(resolve, time*1000));
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 52)     callback();
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 53) }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 54) 
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 55) export const ScoreTeam = (rounds: IGameRound[], team: number) => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 56)     let score = 0;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 57)     rounds.forEach(x => {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 58)         if (team == 1) {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 59)             score += x.team1ScoredCards.length;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 60)         } else {
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 61)             score += x.team2ScoredCards.length;
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 62)         }
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 63)     });
+1eac4800 (Harrison Hoytt 2022-11-09 13:05:21 -0500 64)     return score;

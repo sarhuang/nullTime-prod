@@ -1,0 +1,149 @@
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointCardDelete {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "DELETE" -> delete()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun delete(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Delete Card Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointCardModify {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "PUT" -> put()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun put(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Modify Card Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointCardSubmit {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "POST" -> post()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun post(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Submit Card Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointCreate {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "POST" -> post()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun post(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Create Lobby Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointDelete {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "DELETE" -> delete()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun delete(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Delete Lobby Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  1) package app.nulltime.api.lobby
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  2) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  3) import kotlinx.serialization.json.JsonPrimitive
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  4) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  5) class EndpointFinish {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  6)     fun handler(req: Request): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  7)         return when(req.method) {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  8)             "GET" -> get()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500  9)             else -> Response(501, HashMap())
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 10)         }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 11)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 12) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 13)     private fun get(): Response {
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 14)         val body = HashMap<String, JsonPrimitive>()
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 15) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 16)         body["message"] = JsonPrimitive("Finish Lobby Request Received")
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 17) 
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 18)         return Response(200, body)
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 19)     }
+b84dc8aa (Ryland-Seagraves 2022-11-11 16:24:42 -0500 20) }
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  1) ##### endpointCreate
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  2) - Creates a lobby in the database
+f403d642 (Ryland-Seagraves 2022-11-11 16:34:11 -0500  3) - Type: POST
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  4) - Return: 6 digit code for lobby
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  5) 
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  6) ##### endpointDelete
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  7) - Deletes a lobby in the database
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  8) - Type: DELETE
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500  9) - Return: whether lobby was successfully deleted
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 10) 
+f403d642 (Ryland-Seagraves 2022-11-11 16:34:11 -0500 11) ##### endpointFinish
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 12) - Ends a given game instance in the database and moves cards to be stored for later if the user would like to reuse them
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 13) - Type: GET
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 14) - Return: whether lobby was successfully ended
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 15) 
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 16) ##### endpointCardSubmit
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 17) - Adds card to given game
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 18) - Type: POST
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 19) - Return: whether card was successfully added, if not, why
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 20) 
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 21) ##### endpointCardDelete
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 22) - Removes card from given game
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 23) - Type: DELETE
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 24) - Return: whether card was successfully deleted, if not, why
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 25) 
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 26) ##### endpointCardModify
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 27) - Modifies card data in given game
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 28) - Type: PUT
+932fa93f (Ryland-Seagraves 2022-11-11 15:35:19 -0500 29) - Return: whether card was successfully modified, if not, why
