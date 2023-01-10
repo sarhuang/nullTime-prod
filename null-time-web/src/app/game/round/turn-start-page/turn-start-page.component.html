@@ -1,0 +1,16 @@
+<!--page that says to start your turn-->
+<div *ngIf="!isPlayingTurn" style="color: white;">
+  <h1 style="color:#0dc39b">Team {{getCurrentTeam()}}'s Turn!</h1>
+  <h2>{{getRemainingCards()}} Remaining Card(s)</h2>
+  <br>
+  <button id = "bigButton" (click)="startTurn()">Start Turn</button>
+  <br>
+</div>
+
+<!--displays actually playing the turn-->
+<!--ends turn when card list is empty
+or when timer runs out -->
+<div *ngIf="isPlayingTurn">
+  <app-turn-play-page></app-turn-play-page>
+  <!-- <button (click) = devBack()>dev back button</button> -->
+</div>

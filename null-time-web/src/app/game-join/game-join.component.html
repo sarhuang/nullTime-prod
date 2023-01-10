@@ -1,0 +1,68 @@
+<video id="background-video" autoplay loop [muted]="'muted'">
+    <source src="../assets/images/Time.mp4" type="video/mp4">
+</video>
+
+<img id="musicButton" [src]="gameJoinRef.getMusicButtonSrc" alt="sound off button" (click)="playLobbyMusic()">
+<img id="creditsButton" src="../assets/images/credits.png" alt="credits button" (click)="showCredits()">
+<img id="logo" src="../assets/images/logo_transparent.png" alt="null time logo" >
+
+
+
+<div *ngIf="!showAddWords && !showCreds">
+<form id="form">
+    <br>
+    <div class = "form-field">
+        <br>
+        <br>
+        <label id = "label">Enter Game Pin</label>
+        <br>
+        <input id = "pin" type = "text" name = "pin" [(ngModel)]= "code" />
+    </div>
+    <br>
+    <br>
+    <!--see styles.css for style compression-->
+    <button id = "bigButton" style="background-color: #0da987" (click) = "joinGame()" [disabled]="disableJoinGame()">Join Game</button>
+    <br>
+    <button id = "bigButton" style="background-color: #ff0000" (click) = "hostGame()">Host Game</button>
+    <br>
+    <br>
+</form>
+</div>
+
+<div *ngIf="showAddWords">
+    <!--<app-game-card-list [canAddCards]="true" [allCards]="getCardList()" [canEditCards]="true" [showAsList]="true"></app-game-card-list>-->
+    <app-game-card-list [canAddCards]="true" [allCards]="getCardList()" [canEditCards]="true" [showAsList]="true" (clearCardsCallback)="clearCards()"></app-game-card-list>
+    <br>
+    <br>
+    <button id = "bigButton" style="background-color: #ff0000" (click) = "submit()">Submit</button>
+</div>
+
+<div *ngIf="showCreds" id="form">
+    <h2 id="label" style="color: #ffffff">CREDITS</h2>
+    <p id="text" style="font-weight: bold; color:#0dc39b">
+        DESIGNED AND DEVELOPED BY
+    </p>
+    <p id="text">
+        Sarah Huang<br>
+        Harrison Hoytt<br>
+        Edward "Bear" Moran<br>
+        Kuba Zeligowski<br>
+        Ryland Seagraves<br>
+    </p>
+
+    <p id="text" style="font-weight: bold; color:#0dc39b">
+        <br><a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" style="color:#0dc39b">MUSIC</a>
+    </p>
+    <p id="text">
+        Intiruge Fun by Musictown<br>
+        <a href="https://pixabay.com/music/id-21661/">https://pixabay.com/music/id-21661/</a><br>
+    </p>
+
+    <p id="text" style="font-weight: bold; color:#0dc39b">
+        <br>BACKGROUND
+    </p>
+    <p id="text">
+        Time Clock Green Lines Circles by tommyvideo<br>
+        <a href="https://pixabay.com/videos/id-5359/">https://pixabay.com/videos/id-5359/</a><br>
+    </p>
+</div>

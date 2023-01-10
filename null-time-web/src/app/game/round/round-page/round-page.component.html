@@ -1,0 +1,42 @@
+<!--main round page-->
+<app-game-score-display></app-game-score-display>
+<div *ngIf="currentRoundPhase == 0" id="box">
+  <!--this needs logic to display round number-->
+  <h1 style="color:#0dc39b">Round {{getService().getCurrentRound()}}</h1>
+  <p style="margin: 10px">{{getService().getRoundInstructions()}}</p>
+  <br>
+  <img id="diagram" src="{{getRoundDiagram()}}" alt="round diagram">
+  <br>
+  <button id = "bigButton" (click) = startTurnPhase()>Start Round</button>
+  <br>
+</div>
+
+<!--when playing the round-->
+<div *ngIf="currentRoundPhase == 1" id="box">
+  <app-turn-start-page></app-turn-start-page>
+</div>
+
+<!--show moderation page at end of round-->
+<div *ngIf="currentRoundPhase == 2" id="box">
+  <h1>Moderation</h1>
+  <p>Score a card incorrectly? You can fix it here!</p>
+  <app-moderation-page></app-moderation-page>
+  <!--Start next round button-->
+  <div *ngIf="!(getService().getCurrentRound() == getService().getMaxRounds())">
+    <button id = "bigButton" style="margin-top: 20px" (click)="startNextRound()">Start Next Round</button>
+  </div>
+  <!--show final scores button-->
+  <div *ngIf="getService().getCurrentRound() == getService().getMaxRounds()">
+    <button id = "bigButton" (click)="startNextRound()">Show Final Scores</button>
+  </div>
+</div>
+
+<div class="game-over-panel" *ngIf="currentRoundPhase == 3" id="box">
+  <h1 style="color:#0dc39b">Game Over!</h1>
+  <img id="diagram" src="../assets/images/gameOver.png" alt="game over diagram">
+  <h3>Team 1 Score: <b>{{getService().team1Score}}</b></h3>
+  <h3>Team 2 Score: <b>{{getService().team2Score}}</b></h3>
+  <br>
+  <button id = "bigButton" (click)="backToMainMenu()">Back to Main Menu</button>
+  <br>
+</div>

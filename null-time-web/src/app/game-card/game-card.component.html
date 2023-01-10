@@ -1,0 +1,26 @@
+<!--  *ngIf is a directive that only renders the element to the DOM if the condition is true -->
+<mat-card *ngIf="!!card" class="game-card" (click)="cardSuccess()"
+[ngClass]="{'team-1-card': doesTeam1OwnCard(), 'team-2-card': doesTeam2OwnCard()}">
+    <mat-card-title *ngIf="!isEditing" (click)="toggleEdit()" class="card-title">{{card.value}}</mat-card-title>
+    <mat-card-title *ngIf="isEditing">
+        <!-- [{ngModel}] is how we set up two way binding. (blur) binds the blur event to our toggleEdit function -->
+        <input [(ngModel)]="card.value" (blur)="toggleEdit()" autofocus maxlength="30" />
+    </mat-card-title>
+</mat-card>
+
+<mat-card *ngIf="!card" class="game-card">
+    <mat-card-title class="card-title">Dev error: No card provided</mat-card-title>
+</mat-card>
+
+
+<!--buttons for showing the game changing the teams-->
+<div *ngIf="isModerating">
+    <button mat-raised-button id="giveTeamButton" style="background-color: #0da987"
+    (click)="getService().setTeamCallback(1, getCard())">Team 1</button>
+
+    <button mat-raised-button id="giveTeamButton" style=background-color:#3498DB
+    (click)="getService().setTeamCallback(2, getCard())">Team 2</button>
+
+    <button mat-raised-button id="giveTeamButton" style=background-color:#ff0000
+    (click)="getService().setTeamCallback(0, getCard())">None</button>
+</div>

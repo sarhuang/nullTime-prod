@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+#bigButton{
+  width: 320px;
+  background-color: #ff0000;
+  border: none;
+  color: #ffffff;
+  padding: 15px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px;
+  font-family: 'Verdana', sans-serif;
+}
+
+#bigButton:disabled{
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+}

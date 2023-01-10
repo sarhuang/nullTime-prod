@@ -1,0 +1,4 @@
+<div class="score-parent">
+    <p class="team-1-score" [ngClass]="{'bold-score': getCurrentTeam() === 1}">{{getTeam1Score()}}</p>
+    <p class="team-2-score" [ngClass]="{'bold-score': getCurrentTeam() === 2}">{{getTeam2Score()}}</p>
+</div>

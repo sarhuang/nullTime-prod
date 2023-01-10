@@ -1,0 +1,6 @@
+<h1 style="color: white; font-size: 70px;">{{getTimeRemaining()}}</h1>
+<h2>{{getCardList().length}} Card(s) Left</h2>
+<app-game-card-list [showAsList] = false [allCards] = getCardList()
+(cardClickedCallback)="getService().cardGuessedCallback($event)"
+(lastCardCallback)="getService().outOfCardsCallback()">
+</app-game-card-list>

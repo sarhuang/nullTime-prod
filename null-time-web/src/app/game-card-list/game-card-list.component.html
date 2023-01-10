@@ -1,0 +1,35 @@
+<div>
+    <div *ngIf="getTotalCards() >= 0">
+        <div id=body *ngIf="showAsList" style="max-width: 500px; margin: auto; text-align: center;">
+            <h1 id = "cardList">Card List</h1>
+            <p *ngIf="showTotalCards">{{ getTotalCards() }}</p>
+            <button *ngIf="canAddCards" (click)="addCard()" mat-raised-button>Add Card</button>
+            <button *ngIf="canAddCards" (click)="clearCardList()" mat-raised-button style="margin-left: 5px;">Clear List</button>
+            <!-- *ngFor is a directive that iterates through allCards, renders the given element to the DOM, and gives us a referece to an object in allCards to use -->
+            <div *ngFor="let card of allCards">
+                <!-- [card] is us binding the given card to the given component -->
+                <app-game-card [card]="card" [canEdit]="canEditCards" [isModerating]="isModerating"></app-game-card>
+            </div>
+        </div>
+
+        <!--table mode currently not implemented-->
+        <div *ngIf="showAsTable" style="max-width: 500px; margin: auto; text-align: center;">
+            <div *ngFor="let card of allCards">
+                <!-- [card] is us binding the given card to the given component -->
+                <app-game-card [card]="card" [canEdit]="canEditCards" [isModerating]="isModerating"></app-game-card>
+            </div>
+        </div>
+
+
+        <div *ngIf="!showAsList && !showAsTable">
+            <p *ngIf="showTotalCards">{{ getTotalCards() }}</p>
+            <app-game-card [card]="allCards[currentCardIndex]" [isModerating]="isModerating" (handleClick)="cardClicked($event)"></app-game-card>
+            <button class="skip-button" style="margin-top: 20px; width: 200px;" color="warn" (click)="incrementCardIndex()" mat-raised-button>Skip</button>
+        </div>
+    </div>
+    <div *ngIf="getTotalCards() === 0" style="max-width: 500px; margin: auto; text-align: center; color: white;">
+        <!--
+        <p>Out of Cards</p>
+        -->
+    </div>
+</div>

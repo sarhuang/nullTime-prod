@@ -1,0 +1,81 @@
+<video id="background-video" loop autoplay [muted]="'muted'">
+  <source src="../assets/images/Time.mp4" type="video/mp4">
+</video>
+
+<img id="musicButton" [src]="gameJoinRef.getMusicButtonSrc" alt="sound off button" (click)="playLobbyMusic()">
+<img id="logo" src="../assets/images/logo_transparent.png" alt="null time logo" (click) = "returnHome()">
+
+<!--lobby page-->
+<div class="body" *ngIf="!showAddingWords && !showPlayingGame && !showLocalStart">
+    <h2 id = "subtitle">Enter cards with Game Pin: </h2>
+    <h3 id = "randomGamePin" >{{getGameCode}}</h3>
+
+<textarea style = "width: 200px; height: 180px;" readonly id = 'cardCounter'>
+
+
+Card Counter:
+
+{{getWordCount}}
+</textarea>
+
+    <br>
+    <br>
+    <button class="start-button" id = "bigButton" (click) = "startGame()" 
+    [disabled]="getCardList().length < 1">Start Game</button>
+    <br />
+    <button id="bigButton" (click)="importCardsFromApi()" 
+    [disabled]="cardsImported" style="background-color:#cd35d7">Import Cards</button>
+    <br />
+    <button id = "bigButton" (click) = "addWords()"
+    style=background-color:#3498DB>Enter Cards</button>
+    <br>
+    <button id = "bigButton" (click) = "createNewLobby()"
+    style=background-color:#E67E22>Create New Lobby</button>
+    <br>
+    <button id = "bigButton" (click) = "createLocalGame()"
+    style=background-color:#ff0000>Create Local Game</button>
+    <br>
+    <br>
+</div>
+
+
+<div *ngIf="showAddingWords">
+  <textarea style = "width: 200px; height: 180px;" readonly id = 'cardCounter'>
+
+
+Card Counter:
+
+{{getWordCount}}
+  </textarea>
+  <br>
+  <br>
+  <!-- <button id = "bigButton" (click) = "startGame()"
+  class="start-button" [disabled]="getCardList().length < 1">Start Game</button> -->
+  <br>
+  <app-game-card-list [canAddCards]="true" [allCards]="hostEnteredGameCards" [canEditCards]="true" [showAsList]="true" (clearCardsCallback)="clearCards()"></app-game-card-list>
+  <!-- <button (click) = devBack()>dev back button</button> -->
+  <button id="bigButton" (click)="hideAddWords()">Back</button>
+</div>
+
+<div *ngIf="showLocalStart">
+  <textarea style = "width: 200px; height: 180px;" readonly id = 'cardCounter'>
+
+
+Card Counter:
+
+{{getWordCount}}
+  </textarea>
+  <br>
+  <br>
+  <button id = "bigButton" (click) = "startGame()"
+  class="start-button" [disabled]="getCardList().length < 1">Start Game</button>
+  <br>
+  <app-game-card-list [canAddCards]="true" [allCards]="getLocalCardList()" [canEditCards]="true" [showAsList]="true" (clearCardsCallback)="clearCards()"></app-game-card-list>
+  <!-- <button (click) = devBack()>dev back button</button> -->
+</div>
+
+<!--gameplay is starting-->
+<div *ngIf="showPlayingGame">
+  <app-round-page [allCardsRef]="getCardList()"></app-round-page>
+  <!-- <button (click) = devBack()>dev back button</button> -->
+</div>
