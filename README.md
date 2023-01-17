@@ -3,11 +3,11 @@
 ![Nulltime Logo](/null-time-web/src/assets/images/logo_transparent.png)
 
 ## Team Members 5/5
-* Sarah Huang – sarhuang
-* Harrison Hoytt – hhhoytt
-* Edward Moran – emoran11 
-* Ryland Seagraves – Ryland-Seagraves
-* Kuba Zeligowski – huncfut
+* Sarah Huang 
+* Harrison Hoytt 
+* Edward Moran
+* Ryland Seagraves 
+* Kuba Zeligowski 
 
 ## Time's up
 
