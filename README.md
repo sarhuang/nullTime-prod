@@ -12,6 +12,7 @@
 ## Time's up
 
 ### Summary
+Check out the Nulltime Demo.pdf for our final presentation!
 The project is to make a digital version for a popular party game known as Time's Up or Fishbowl. It would allow the user to enter a link and create a game that others would be able to join.
 
 ### Problem
